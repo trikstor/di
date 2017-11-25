@@ -3,11 +3,11 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TagsCloudVisualization
+namespace TagCloud
 {
-    public class CircularCloudLayouter
+    public class CircularCloudLayouter : ILayouter
     {
-        public List<Rectangle> AllRectangles { get; }
+        private List<Rectangle> AllRectangles { get; }
         private IEnumerator<Point> CloudSpiral { get; set; }
         private Point Center { get; }
 
@@ -52,8 +52,7 @@ namespace TagsCloudVisualization
             return GetRectangleCenterOffset(currCenter, rectangleSize);
         }
 
-
-        public Point GetRectangleCenterOffset(Point currPoint, Size rectangleSize)
+        private Point GetRectangleCenterOffset(Point currPoint, Size rectangleSize)
         {
             var newPoint = new Point
             {

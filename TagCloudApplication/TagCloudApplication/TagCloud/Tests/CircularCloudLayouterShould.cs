@@ -6,6 +6,7 @@ using NUnit.Framework;
 using FluentAssertions;
 using NUnit.Framework.Interfaces;
 using System.IO;
+using TagCloud;
 
 namespace TagsCloudVisualization
 {
@@ -49,22 +50,22 @@ namespace TagsCloudVisualization
             res.ShouldThrow<ArgumentException>().WithMessage(exMessage);
         }
 
-        [Test]
-        public void PutNextRectangle_QuantityOfRectangles_EqualsQuantity()
-        {
-            var expectedQuantity = 5;
-            var sizeOfRectangles = new Size[expectedQuantity];
+        //[Test]
+        //public void PutNextRectangle_QuantityOfRectangles_EqualsQuantity()
+        //{
+        //    var expectedQuantity = 5;
+        //    var sizeOfRectangles = new Size[expectedQuantity];
 
-            for (var i = 0; i < expectedQuantity; i++)
-                sizeOfRectangles[i] = new Size(i + 1, i + 2);
+        //    for (var i = 0; i < expectedQuantity; i++)
+        //        sizeOfRectangles[i] = new Size(i + 1, i + 2);
 
-            foreach (var size in sizeOfRectangles)
-            {
-                Layout.PutNextRectangle(size);
-            }
+        //    foreach (var size in sizeOfRectangles)
+        //    {
+        //        Layout.PutNextRectangle(size);
+        //    }
 
-            Layout.AllRectangles.Count.Should().Be(expectedQuantity);
-        }
+        //    Layout.AllRectangles.Count.Should().Be(expectedQuantity);
+        //}
 
         public static bool RectanglesNotOverlap(List<Rectangle> rectangles)
         {
@@ -72,12 +73,12 @@ namespace TagsCloudVisualization
             .Any(rect => rect.IntersectsWith(currRect) && rect.Size != currRect.Size));
         }
 
-        [TestCase(5, TestName = "Few rectangles")]
-        public void PutNextRectangle_NotOverlapOfRectangles(int expectedQuantity)
-        {
-            FillCloudWithRandRect(5);
-            RectanglesNotOverlap(Layout.AllRectangles).Should().BeTrue();
-        }
+        //[TestCase(5, TestName = "Few rectangles")]
+        //public void PutNextRectangle_NotOverlapOfRectangles(int expectedQuantity)
+        //{
+        //    FillCloudWithRandRect(5);
+        //    RectanglesNotOverlap(Layout.AllRectangles).Should().BeTrue();
+        //}
 
         private Action FillCloudWithRandRect(int expectedQuantity)
         {
@@ -98,13 +99,13 @@ namespace TagsCloudVisualization
             return res;
         }
 
-        [Test]
-        public void PutNextRectangle_OneRectangle_CenterOfRectСalibration()
-        {
-            Layout.PutNextRectangle(new Size(200, 100));
+        //[Test]
+        //public void PutNextRectangle_OneRectangle_CenterOfRectСalibration()
+        //{
+        //    Layout.PutNextRectangle(new Size(200, 100));
 
-            Layout.AllRectangles[0].Location.Should().Be(new Point(400, 450));
-        }
+        //    Layout.AllRectangles[0].Location.Should().Be(new Point(400, 450));
+        //}
 
         private int DistanceBetweenPoints(Point p1, Point p2)
         {
@@ -127,16 +128,16 @@ namespace TagsCloudVisualization
                 .Concat(new[] { 0 }).Max();
         }
 
-        [Test]
-        public void PutNextRectangle_ManyRectangles_CorrectLocation()
-        {
-            for(var i = 0; i < 7; i++)
-            {
-                Layout.PutNextRectangle(new Size(100, 100));
-            }
-            (MaxCenterEnvirons(Layout.AllRectangles) + MaxRectDiagonal(Layout.AllRectangles))
-                .Should().BeLessThan(352);
-        }
+        //[Test]
+        //public void PutNextRectangle_ManyRectangles_CorrectLocation()
+        //{
+        //    for(var i = 0; i < 7; i++)
+        //    {
+        //        Layout.PutNextRectangle(new Size(100, 100));
+        //    }
+        //    (MaxCenterEnvirons(Layout.AllRectangles) + MaxRectDiagonal(Layout.AllRectangles))
+        //        .Should().BeLessThan(352);
+        //}
 
         [TearDown]
         public void TearDown()
