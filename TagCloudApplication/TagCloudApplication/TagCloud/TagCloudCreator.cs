@@ -6,12 +6,11 @@ namespace TagCloud
 {
     public class TagCloudCreator
     {
-        public List<WordRectanglePair> Create(Dictionary<string, int> tagsCollection, ILayouter lauouter)
+        public Dictionary<string, Rectangle> Create(Dictionary<string, int> tagsCollection, ILayouter lauouter)
         {
-            return tagsCollection.Select(tag =>
-                    new WordRectanglePair(tag.Key, lauouter
-                        .PutNextRectangle(GetRectangleSizeForWord(tag.Key.Length, tag.Value))))
-                        .ToList();
+            return tagsCollection
+                .ToDictionary(tag => tag.Key,
+                tag => lauouter.PutNextRectangle(GetRectangleSizeForWord(tag.Key.Length, tag.Value)));
         }
 
         private Size GetRectangleSizeForWord(int wordLength, int fontSize)
