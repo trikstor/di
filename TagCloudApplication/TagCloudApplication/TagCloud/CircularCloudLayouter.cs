@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace TagCloud
 {
-    public class CircularCloudLayouter : ILayouter,
+    public class CircularCloudLayouter : ILayouter
     {
         private List<Rectangle> AllRectangles { get; }
         private IEnumerator<Point> CloudSpiral { get; set; }
