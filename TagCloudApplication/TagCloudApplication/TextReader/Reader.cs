@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions.Common;
 using TextReader.Filrters;
 
@@ -33,6 +30,7 @@ namespace TextReader
                 while ((currStr = textReader.ReadLine()) != null)
                 {
                     result = AddNewTagOrChangeQuantity(result, currParser.Parse(currStr).ToLower());
+                    result = filters.Aggregate(result, (current, filter) => filter.FilterTags(current));
                 }
             }
             return result;

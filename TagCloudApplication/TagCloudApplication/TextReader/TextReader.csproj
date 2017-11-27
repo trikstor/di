@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Filrters\BoringWordsFilter.cs" />
     <Compile Include="Filrters\IFilter.cs" />
     <Compile Include="IReader.cs" />
     <Compile Include="Parsers\IParser.cs" />
