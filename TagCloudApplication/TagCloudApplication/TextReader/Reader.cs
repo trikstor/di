@@ -32,9 +32,12 @@ namespace TextReader
                 string currStr;
                 while ((currStr = textReader.ReadLine()) != null)
                 {
-                    result = AddNewTagOrChangeQuantity(result, currParser.Parse(currStr).ToLower());
-                    if(TextFilters != null)
-                        result = TextFilters.Aggregate(result, (current, filter) => filter.FilterTags(current));
+                    foreach (var parsedString in currParser.Parse(currStr))
+                    {
+                        AddNewTagOrChangeQuantity(result, parsedString.ToLower());
+                        if (TextFilters != null)
+                            result = TextFilters.Aggregate(result, (current, filter) => filter.FilterTags(current));
+                    }
                 }
             }
             return result;

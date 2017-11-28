@@ -11,9 +11,9 @@
                 "txt"
             };
         }
-        public string Parse(string row)
+        public string[] Parse(string row)
         {
-            return row;
+            return new[] {row};
         }
     }
 }

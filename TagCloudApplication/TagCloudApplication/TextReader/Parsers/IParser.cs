@@ -3,6 +3,6 @@
     public interface IParser
     {
         string[] FileExtentions { get; }
-        string Parse(string row);
+        string[] Parse(string row);
     }
 }
