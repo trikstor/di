@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="Converter.cs" />
+    <Compile Include="IConverter.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

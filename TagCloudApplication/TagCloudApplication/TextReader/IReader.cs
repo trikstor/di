@@ -5,6 +5,6 @@ namespace TextReader
 {
     public interface IReader
     {
-        Dictionary<string, int> Read(string path, List<IFilter> filters);
+        Dictionary<string, int> Read(string path);
     }
 }

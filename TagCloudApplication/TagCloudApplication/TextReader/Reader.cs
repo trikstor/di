@@ -4,19 +4,22 @@ using System.IO;
 using System.Linq;
 using FluentAssertions.Common;
 using TextReader.Filrters;
+using TextReader.Parsers;
 
 namespace TextReader
 {
     public class Reader : IReader
     {
-        private IEnumerable<IParser> TextParsers { get; }
+        private List<IParser> TextParsers { get; }
+        private List<IFilter> TextFilters { get; }
         
-        public Reader(IEnumerable<IParser> textParsers)
+        public Reader(List<IParser> textParsers, List<IFilter> textFilters)
         {
             TextParsers = textParsers;
+            TextFilters = textFilters;
         }
         
-        public Dictionary<string, int> Read(string path, List<IFilter> filters)
+        public Dictionary<string, int> Read(string path)
         {
             var nameExtentions = TextParsers.SelectMany(x => x.FileExtentions);
             var currNameExtention = path.Substring(path.Length - 3, 3);
@@ -30,7 +33,7 @@ namespace TextReader
                 while ((currStr = textReader.ReadLine()) != null)
                 {
                     result = AddNewTagOrChangeQuantity(result, currParser.Parse(currStr).ToLower());
-                    result = filters.Aggregate(result, (current, filter) => filter.FilterTags(current));
+                    result = TextFilters.Aggregate(result, (current, filter) => filter.FilterTags(current));
                 }
             }
             return result;

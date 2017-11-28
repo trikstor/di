@@ -62,5 +62,19 @@ namespace TagCloud
 
             return newPoint;
         }
+        
+        
+        
+        public Dictionary<string, Rectangle> Create(Dictionary<string, int> tagsCollection)
+        {
+            return tagsCollection
+                .ToDictionary(tag => tag.Key,
+                    tag => PutNextRectangle(GetRectangleSizeForWord(tag.Key.Length, tag.Value)));
+        }
+
+        private Size GetRectangleSizeForWord(int wordLength, int fontSize)
+        {
+            return new Size(fontSize + fontSize / 2, wordLength * fontSize);
+        }
     }
 }

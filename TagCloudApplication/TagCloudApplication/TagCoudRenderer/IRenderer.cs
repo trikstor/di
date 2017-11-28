@@ -10,6 +10,6 @@ namespace TagCoudRenderer
 {
     public interface IRenderer
     {
-        void Draw(string path, Dictionary<string, Rectangle> tagList);
+        Bitmap Draw(Dictionary<string, Rectangle> tagList);
     }
 }

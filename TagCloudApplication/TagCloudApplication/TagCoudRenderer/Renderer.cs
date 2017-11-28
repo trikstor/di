@@ -6,25 +6,35 @@ using TagCloud;
 
 namespace TagCoudRenderer
 {
-    public class Renderer
+    public class Renderer : IRenderer
     {
-        private Color TagColor { get; }
-        private Font TagFont { get; }
+        private Brush TagColor { get; }
+        private string TagFontName { get; }
         private Size ImgSize { get; }
-        private Visualizer TagCloudVisualizer { get; }
 
-        public Renderer(Point center, Color color, Font font, Size imgSize)
+        public Renderer(Brush color, string fontName, Size imgSize)
         {
             TagColor = color;
-            TagFont = font;
+            TagFontName = fontName;
             ImgSize = imgSize;
-            TagCloudVisualizer = new Visualizer(center, imgSize);
         }
 
-        public void Draw(string path, Dictionary<string, Rectangle> tagList)
+        public Bitmap Draw(Dictionary<string, Rectangle> tagList)
         {
-            if(!Directory.Exists(path))
-                throw new ArgumentException("Неверный путь для изображения.");           
+            return DrawTags(tagList);
+        }
+        
+        public Bitmap DrawTags(Dictionary<string, Rectangle> tagList)
+        {
+            var bitmap = new Bitmap(ImgSize.Width, ImgSize.Height);
+            using (var gr = Graphics.FromImage(bitmap))
+            {
+                foreach (var tag in tagList)
+                {
+                    gr.DrawString(tag.Key, new Font(TagFontName, GetFontSize(tag.Value)), TagColor, tag.Value.Location);
+                }
+            }
+            return bitmap;
         }
 
         public int GetFontSize(Rectangle rectangle)

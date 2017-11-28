@@ -54,7 +54,6 @@
     <Compile Include="ILayouter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Spiral.cs" />
-    <Compile Include="TagCloudCreator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

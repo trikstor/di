@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using Autofac;
+using CommandLine;
 
 namespace ConsoleUI
 {
@@ -7,9 +8,20 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            var options = new Options();
+            args = new[]
+            {
+                "-i", "test.txt",
+                "-o", "test.png",
+                "-f", "Arial",
+                "-w", "500",
+                "-h", "500",
+            };
 
-            var engine = Config.ConfigureContainer(Color.Black, new Font(options.Font, 0), new Size(options.ImgWidth, options.ImgHeight)).Resolve<Converter>();
+            var options = new Options();
+            //if(!Parser.Default.ParseArguments(args, options))
+            //    return;
+
+            var engine = Config.ConfigureContainer(Color.Black, options.Font, new Size(options.ImgWidth, options.ImgHeight)).Resolve<IConverter>();
             engine.FromTextToImg(options.InputPath, options.ImgPath);
         }
     }
