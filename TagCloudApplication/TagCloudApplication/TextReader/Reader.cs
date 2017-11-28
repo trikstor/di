@@ -33,7 +33,8 @@ namespace TextReader
                 while ((currStr = textReader.ReadLine()) != null)
                 {
                     result = AddNewTagOrChangeQuantity(result, currParser.Parse(currStr).ToLower());
-                    result = TextFilters.Aggregate(result, (current, filter) => filter.FilterTags(current));
+                    if(TextFilters != null)
+                        result = TextFilters.Aggregate(result, (current, filter) => filter.FilterTags(current));
                 }
             }
             return result;

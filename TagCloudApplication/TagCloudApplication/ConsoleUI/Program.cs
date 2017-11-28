@@ -10,18 +10,18 @@ namespace ConsoleUI
         {
             args = new[]
             {
-                "-i", "test.txt",
-                "-o", "test.png",
+                "-i", "...text.txt",
+                "-o", "...test.png",
                 "-f", "Arial",
-                "-w", "500",
-                "-h", "500",
+                "-w", "1000",
+                "-h", "1000"
             };
 
             var options = new Options();
-            //if(!Parser.Default.ParseArguments(args, options))
-            //    return;
+            if(!Parser.Default.ParseArguments(args, options))
+                return;
 
-            var engine = Config.ConfigureContainer(Color.Black, options.Font, new Size(options.ImgWidth, options.ImgHeight)).Resolve<IConverter>();
+            var engine = Config.ConfigureContainer(Color.Black, options.Font, new Size(options.ImgWidth, options.ImgHeight)).Resolve<Converter>();
             engine.FromTextToImg(options.InputPath, options.ImgPath);
         }
     }

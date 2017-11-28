@@ -12,7 +12,6 @@ namespace TagsCloudVisualization
     [TestFixture]
     public class ReaderShould
     {
-        /*
         private Reader TextReader;
 
         [SetUp]
@@ -22,20 +21,20 @@ namespace TagsCloudVisualization
                 new List<IParser>
                 {
                     new SimpleTextParser()
-                });
+                }, null);
         }
 
         [Test]
         public void ThrowException_InvalidInputPath()
         {
-            Action result = () => { TextReader.Read("/invalidPath/text.txt", null); };
+            Action result = () => { TextReader.Read("/invalidPath/text.txt"); };
             result.ShouldThrow<ArgumentException>().WithMessage("Неверный путь к текстовому файлу.");
         }
 
         [Test]
         public void ThrowException_InvalidFileNameExtension()
         {
-            Action result = () => { TextReader.Read("/invalidPath/text.pdf", null); };
+            Action result = () => { TextReader.Read("/invalidPath/text.pdf"); };
             result.ShouldThrow<ArgumentException>().WithMessage("Неверное расширение текстового файла.");
         }
 
@@ -57,7 +56,7 @@ namespace TagsCloudVisualization
                 "test.txt"
             );
             
-            TextReader.Read(combine, null).ShouldAllBeEquivalentTo(expectedResult);
+            TextReader.Read(combine).ShouldAllBeEquivalentTo(expectedResult);
         }
         
         [Test]
@@ -65,7 +64,10 @@ namespace TagsCloudVisualization
         {
             var filters = new List<IFilter>();
             filters.Add(new BoringWordsFilter(new List<string>{"sit", "amet"}));
-
+            var currReader = new Reader(new List<IParser>
+            {
+                new SimpleTextParser()
+            }, filters);
             var expectedResult = new Dictionary<string, int>
             {
                 {"loren", 3},
@@ -78,9 +80,8 @@ namespace TagsCloudVisualization
                 Directory.GetParent(context.TestDirectory).Parent.FullName,
                 "test.txt"
             );
-            
-            TextReader.Read(combine, filters).ShouldAllBeEquivalentTo(expectedResult);
+
+            currReader.Read(combine).ShouldAllBeEquivalentTo(expectedResult);
         }
-        */
     }
 }

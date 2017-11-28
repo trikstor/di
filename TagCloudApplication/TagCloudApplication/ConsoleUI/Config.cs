@@ -16,8 +16,13 @@ namespace ConsoleUI
         {
             var builder = new ContainerBuilder();
             var testColor = new List<Brush> {Brushes.Blue};
+            var center = new Point(imgSize.Width / 2, imgSize.Height / 2);
 
-            builder.RegisterType<CircularCloudLayouter>().As<ILayouter>().WithParameter("center", new Point(250, 250));
+            builder.RegisterType<CircularCloudLayouter>().AsSelf().WithParameter("center", center);
+            builder.RegisterType<TagCloudCreator>().As<ITagCloudCreator>().WithParameters(new List<Parameter>
+            {
+                new NamedParameter("imgSize", imgSize)
+            });
             builder.RegisterType<Reader>().As<IReader>().WithParameters(new List<Parameter>
             {
                 new NamedParameter("textParsers", new List<IParser>{new SimpleTextParser()}),
@@ -29,7 +34,7 @@ namespace ConsoleUI
                new NamedParameter("fontName", fontName),
                new NamedParameter("imgSize", imgSize)
             });
-            builder.RegisterType<Converter>().As<IConverter>();
+            builder.RegisterType<Converter>().AsSelf();
 
             return builder.Build();
         }
