@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace TagCloud
 {
-    public interface ILayouter
+    public interface ITagCloudCreator
     {
         Dictionary<string, Rectangle> Create(Dictionary<string, int> tagsCollection);
     }

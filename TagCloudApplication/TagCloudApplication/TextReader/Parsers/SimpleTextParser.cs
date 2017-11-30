@@ -1,27 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-namespace TextReader.Parsers
+﻿namespace TextReader.Parsers
 {
     public class SimpleTextParser : IParser
     {
-        public string[] FileExtentions { get; } 
-            = new [] { "txt" };
-     
-        public IEnumerable<string> Parse(StreamReader textrReader)
+        public string[] FileExtentions { get; }
+
+        public SimpleTextParser()
         {
-            string currStr;
-            while ((currStr = textrReader.ReadLine()) != null)
+            FileExtentions = new[]
             {
-                foreach (var word in currStr.Split(
-                    new[] {' ', '.', ',', ':', ';', '!', '?', '\t', '–'},
-                    StringSplitOptions.RemoveEmptyEntries))
-                {
-                    yield return word;
-                }
-            }
+                "txt"
+            };
+        }
+        public string Parse(string row)
+        {
+            return row;
         }
     }
 }

@@ -22,24 +22,12 @@ namespace TagsCloudVisualization
             Center = new Point(500, 500);
             Layout = new CircularCloudLayouter(Center);
         }
-/*
+
         [TestCase(-10, 5, "Coordinates must be positive or zero", TestName = "Create a new layout with negative cordinate(s)")]
         public void ThrowException_UncorrectParams(int x, int y, string exMessage)
         {
             Action res = () => { new CircularCloudLayouter(new Point(x, y)); };
             res.ShouldThrow<ArgumentException>().WithMessage(exMessage);
-        }
-
-        [TestCase(15, 5, TestName = "Return right rectangle")]
-        public void PutNextRectangle_ReturnRightRectangle(int width, int height)
-        {
-            var actual = Layout.PutNextRectangle(new Size(width, height));
-            var expected = new Rectangle(
-                Layout.GetRectangleCenterOffset(
-                    new Point(500, 500), new Size(width, height)), new Size(width, height));
-
-            actual.ShouldBeEquivalentTo(expected, options =>
-                options.ExcludingNestedObjects());
         }
 
         [TestCase(0, 5, "Size must be positive", 
@@ -50,22 +38,23 @@ namespace TagsCloudVisualization
             res.ShouldThrow<ArgumentException>().WithMessage(exMessage);
         }
 
-        //[Test]
-        //public void PutNextRectangle_QuantityOfRectangles_EqualsQuantity()
-        //{
-        //    var expectedQuantity = 5;
-        //    var sizeOfRectangles = new Size[expectedQuantity];
+        [Test]
+        public void PutNextRectangle_QuantityOfRectangles_EqualsQuantity()
+        {
+            var allRect = new List<Rectangle>();
+            const int expectedQuantity = 5;
+            var sizeOfRectangles = new Size[expectedQuantity];
 
-        //    for (var i = 0; i < expectedQuantity; i++)
-        //        sizeOfRectangles[i] = new Size(i + 1, i + 2);
+            for (var i = 0; i < expectedQuantity; i++)
+                sizeOfRectangles[i] = new Size(i + 1, i + 2);
 
-        //    foreach (var size in sizeOfRectangles)
-        //    {
-        //        Layout.PutNextRectangle(size);
-        //    }
+            foreach (var size in sizeOfRectangles)
+            {
+                allRect.Add(Layout.PutNextRectangle(size));
+            }
 
-        //    Layout.AllRectangles.Count.Should().Be(expectedQuantity);
-        //}
+            allRect.Count.Should().Be(expectedQuantity);
+        }
 
         public static bool RectanglesNotOverlap(List<Rectangle> rectangles)
         {
@@ -73,15 +62,16 @@ namespace TagsCloudVisualization
             .Any(rect => rect.IntersectsWith(currRect) && rect.Size != currRect.Size));
         }
 
-        //[TestCase(5, TestName = "Few rectangles")]
-        //public void PutNextRectangle_NotOverlapOfRectangles(int expectedQuantity)
-        //{
-        //    FillCloudWithRandRect(5);
-        //    RectanglesNotOverlap(Layout.AllRectangles).Should().BeTrue();
-        //}
-
-        private Action FillCloudWithRandRect(int expectedQuantity)
+        [TestCase(5, TestName = "Few rectangles")]
+        public void PutNextRectangle_NotOverlapOfRectangles(int expectedQuantity)
         {
+            var allRect = FillCloudWithRandRect(5);
+            RectanglesNotOverlap(allRect).Should().BeTrue();
+        }
+
+        private List<Rectangle> FillCloudWithRandRect(int expectedQuantity)
+        {
+            var allRect = new List<Rectangle>();
             var sizeOfRectangles = new Size[expectedQuantity];
             var rnd = new Random();
 
@@ -89,23 +79,18 @@ namespace TagsCloudVisualization
                 sizeOfRectangles[i] = new Size(
                     i + rnd.Next(10, 300), i + rnd.Next(10, 300));
 
-            Action res = () =>
-            {
                 foreach (var size in sizeOfRectangles)
                 {
-                    Layout.PutNextRectangle(size);
+                    allRect.Add(Layout.PutNextRectangle(size));
                 }
-            };
-            return res;
+            return allRect;
         }
 
-        //[Test]
-        //public void PutNextRectangle_OneRectangle_CenterOfRectСalibration()
-        //{
-        //    Layout.PutNextRectangle(new Size(200, 100));
-
-        //    Layout.AllRectangles[0].Location.Should().Be(new Point(400, 450));
-        //}
+        [Test]
+        public void PutNextRectangle_OneRectangle_CenterOfRectСalibration()
+        {
+            Layout.PutNextRectangle(new Size(200, 100)).Location.Should().Be(new Point(400, 450));
+        }
 
         private int DistanceBetweenPoints(Point p1, Point p2)
         {
@@ -128,35 +113,16 @@ namespace TagsCloudVisualization
                 .Concat(new[] { 0 }).Max();
         }
 
-        //[Test]
-        //public void PutNextRectangle_ManyRectangles_CorrectLocation()
-        //{
-        //    for(var i = 0; i < 7; i++)
-        //    {
-        //        Layout.PutNextRectangle(new Size(100, 100));
-        //    }
-        //    (MaxCenterEnvirons(Layout.AllRectangles) + MaxRectDiagonal(Layout.AllRectangles))
-        //        .Should().BeLessThan(352);
-        //}
-
-        [TearDown]
-        public void TearDown()
+        [Test]
+        public void PutNextRectangle_ManyRectangles_CorrectLocation()
         {
-            var context = TestContext.CurrentContext;
-
-            if (context.Result.Outcome.Status == TestStatus.Failed)
+            var allRect = new List<Rectangle>();
+            for (var i = 0; i < 7; i++)
             {
-                var visualize = new Visualizer(
-                    Center);
-                var path = Path.Combine(
-                    context.TestDirectory,
-                    context.Test.Name + ".bmp"
-                );
-                visualize.Draw(Layout.AllRectangles).Save(path);
-
-                TestContext.Write("Tag cloud visualization saved to file {path}");
+                allRect.Add(Layout.PutNextRectangle(new Size(100, 100)));
             }
+            (MaxCenterEnvirons(allRect) + MaxRectDiagonal(allRect))
+                .Should().BeLessThan(352);
         }
-        */
     }
 }

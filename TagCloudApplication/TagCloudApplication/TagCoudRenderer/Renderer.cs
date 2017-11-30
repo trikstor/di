@@ -21,25 +21,22 @@ namespace TagCoudRenderer
 
         public Bitmap Draw(Dictionary<string, Rectangle> tagList)
         {
-            return DrawTags(tagList);
-        }
-        
-        public Bitmap DrawTags(Dictionary<string, Rectangle> tagList)
-        {
             var bitmap = new Bitmap(ImgSize.Width, ImgSize.Height);
             using (var gr = Graphics.FromImage(bitmap))
             {
                 foreach (var tag in tagList)
                 {
-                    gr.DrawString(tag.Key, new Font(TagFontName, GetFontSize(tag.Value)), TagColor, tag.Value.Location);
+                    gr.DrawRectangle(new Pen(Color.Aquamarine), tag.Value);
+                    gr.DrawString(tag.Key, new Font(TagFontName, GetFontSize(gr, tag.Key, tag.Value)), TagColor,
+                        tag.Value.Location);
                 }
             }
             return bitmap;
         }
 
-        public int GetFontSize(Rectangle rectangle)
+        public int GetFontSize(Graphics gr, string word, Rectangle rectangle)
         {
-            return rectangle.Height;
+            return rectangle.Height / 2;
         }
         
     }

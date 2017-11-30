@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using CommandLine.Text;
 
 namespace ConsoleUI
 {
@@ -18,5 +19,11 @@ namespace ConsoleUI
 
         [Option('h', "height", HelpText = "Высота изображения.")]
         public int ImgHeight { get; set; }
+
+        [HelpOption]
+        public string GetHelp()
+        {
+            return HelpText.AutoBuild(this);
+        }
     }
 }

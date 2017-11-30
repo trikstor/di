@@ -57,8 +57,8 @@
     <Compile Include="NormalFormConvertShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReaderShould.cs" />
-    <Compile Include="RendererShould.cs" />
     <Compile Include="SpiralShould.cs" />
+    <Compile Include="TagCloudCreatorShould.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
