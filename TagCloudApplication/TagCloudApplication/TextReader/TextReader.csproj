@@ -52,6 +52,7 @@
     <Compile Include="Filrters\BoringWordsFilter.cs" />
     <Compile Include="Filrters\IFilter.cs" />
     <Compile Include="IReader.cs" />
+    <Compile Include="NormalFormConverter.cs" />
     <Compile Include="Parsers\IParser.cs" />
     <Compile Include="Parsers\SimpleTextParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

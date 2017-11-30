@@ -4,6 +4,6 @@ namespace TextReader.Filrters
 {
     public interface IFilter
     {
-        Dictionary<string, int> FilterTags(Dictionary<string, int> tags);
+        bool FilterTag(string tag);
     }
 }

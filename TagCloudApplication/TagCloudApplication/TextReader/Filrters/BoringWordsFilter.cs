@@ -12,10 +12,9 @@ namespace TextReader.Filrters
             BoringWords = boringWords;
         }
 
-        public Dictionary<string, int> FilterTags(Dictionary<string, int> tags)
+        public bool FilterTag(string tag)
         {
-            return tags.Where(tag => !BoringWords.Contains(tag.Key))
-                .ToDictionary(tag => tag.Key, tag => tag.Value);
+            return !BoringWords.Contains(tag) && tag.Length > 3;
         }
     }
 }
