@@ -1,8 +1,11 @@
-﻿namespace TextReader.Parsers
+﻿﻿using System.Collections.Generic;
+using System.IO;
+
+namespace TextReader.Parsers
 {
     public interface IParser
     {
         string[] FileExtentions { get; }
-        string Parse(string row);
+        IEnumerable<string> Parse(StreamReader textrReader);
     }
 }

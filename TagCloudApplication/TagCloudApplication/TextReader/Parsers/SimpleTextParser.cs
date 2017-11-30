@@ -1,19 +1,27 @@
-﻿namespace TextReader.Parsers
+﻿﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+namespace TextReader.Parsers
 {
     public class SimpleTextParser : IParser
     {
-        public string[] FileExtentions { get; }
+        public string[] FileExtentions { get; } 
+            = new [] { "txt" };
 
-        public SimpleTextParser()
+        public IEnumerable<string> Parse(StreamReader textReader)
         {
-            FileExtentions = new[]
+            string currStr;
+            while ((currStr = textReader.ReadLine()) != null)
             {
-                "txt"
-            };
-        }
-        public string Parse(string row)
-        {
-            return row;
+                foreach (var word in currStr.Split(
+                    new[] {' ', '.', ',', ':', ';', '!', '?', '\t', '–'},
+                    StringSplitOptions.RemoveEmptyEntries))
+                {
+                    yield return word;
+                }
+            }
         }
     }
 }
