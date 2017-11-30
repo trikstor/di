@@ -8,7 +8,7 @@ namespace TextReader.Parsers
     public class SimpleTextParser : IParser
     {
         public string[] FileExtentions { get; } 
-            = new [] { "txt" };
+            = new [] { ".txt" };
 
         public IEnumerable<string> Parse(StreamReader textReader)
         {

@@ -26,7 +26,6 @@ namespace TagCoudRenderer
             {
                 foreach (var tag in tagList)
                 {
-                    gr.DrawRectangle(new Pen(Color.Aquamarine), tag.Value);
                     gr.DrawString(tag.Key, new Font(TagFontName, GetFontSize(gr, tag.Key, tag.Value)), TagColor,
                         tag.Value.Location);
                 }

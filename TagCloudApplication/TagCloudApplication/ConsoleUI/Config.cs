@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using Autofac;
 using Autofac.Core;
 using TagCloud;
@@ -23,6 +25,10 @@ namespace ConsoleUI
             {
                 new NamedParameter("imgSize", imgSize)
             });
+            builder.RegisterType<NormalFormConverter>().AsSelf().WithParameter("mystemPath",
+                Path.Combine(
+                    Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName
+                    , "mystem.exe"));
             builder.RegisterType<Reader>().As<IReader>().WithParameters(new List<Parameter>
             {
                 new NamedParameter("textParsers", new List<IParser>{new SimpleTextParser()}),

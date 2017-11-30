@@ -17,7 +17,9 @@ namespace TagsCloudVisualization
         [SetUp]
         public void SetUp()
         {
-            TextReader = new Reader(
+            TextReader = new Reader(new NormalFormConverter(Path.Combine(
+                Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName
+                , "mystem.exe")), 
                 new List<IParser>
                 {
                     new SimpleTextParser()
@@ -35,7 +37,7 @@ namespace TagsCloudVisualization
         public void ThrowException_InvalidFileNameExtension()
         {
             Action result = () => { TextReader.Read("/invalidPath/text.pdf"); };
-            result.ShouldThrow<ArgumentException>().WithMessage("Неверное расширение текстового файла.");
+            result.ShouldThrow<ArgumentException>().WithMessage("Расширение .pdf не поддерживается.");
         }
 
         [Test]
@@ -43,11 +45,12 @@ namespace TagsCloudVisualization
         {
             var expectedResult = new Dictionary<string, int>
             {
-                {"loren", 3},
-                {"ipsum", 2},
-                {"dolor", 1},
-                {"sit", 2},
-                {"amet", 1}
+                {"тьма", 2},
+                {"остров", 2},
+                {"сеять", 2},
+                {"река", 3},
+                {"подобен", 3},
+                {"океан", 3}
             };
             
             var context = TestContext.CurrentContext;
@@ -55,7 +58,7 @@ namespace TagsCloudVisualization
                 Directory.GetParent(context.TestDirectory).Parent.FullName,
                 "test.txt"
             );
-            
+            var rr = TextReader.Read(combine);
             TextReader.Read(combine).ShouldAllBeEquivalentTo(expectedResult);
         }
         
@@ -63,16 +66,19 @@ namespace TagsCloudVisualization
         public void GiveCorrectTagsWithWeightAndFilters_CorrectPathAndSimpleText()
         {
             var filters = new List<IFilter>();
-            filters.Add(new BoringWordsFilter(new List<string>{"sit", "amet"}));
-            var currReader = new Reader(new List<IParser>
+            filters.Add(new BoringWordsFilter(new List<string>{"подобен", "океан"}));
+            var currReader = new Reader(new NormalFormConverter(Path.Combine(
+                Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName
+                , "mystem.exe")), new List<IParser>
             {
                 new SimpleTextParser()
             }, filters);
             var expectedResult = new Dictionary<string, int>
             {
-                {"loren", 3},
-                {"ipsum", 2},
-                {"dolor", 1}
+                {"тьма", 2},
+                {"остров", 2},
+                {"сеять", 2},
+                {"река", 3},
             };
             
             var context = TestContext.CurrentContext;

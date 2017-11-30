@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using FluentAssertions.Common;
+ using System.Text;
+ using FluentAssertions.Common;
 using TextReader.Filrters;
 using TextReader.Parsers;
 
@@ -12,9 +13,11 @@ namespace TextReader
     {
         private List<IParser> TextParsers { get; }
         private List<IFilter> TextFilters { get; }
-        
-        public Reader(List<IParser> textParsers, List<IFilter> textFilters)
+        private NormalFormConverter NormalWordConverter { get; }
+
+        public Reader(NormalFormConverter normalWordConverter, List<IParser> textParsers, List<IFilter> textFilters)
         {
+            NormalWordConverter = normalWordConverter;
             TextParsers = textParsers;
             TextFilters = textFilters;
         }
@@ -27,11 +30,20 @@ namespace TextReader
             var currParser = TextParsers.Where(x => x.FileExtentions.Contains(currNameExtention)).ToArray()[0];
             
             var result = new Dictionary<string, int>();
-            using (var textReader = new StreamReader(path))
+            using (var textReader = new StreamReader(path, Encoding.UTF8))
             {
-                result = currParser.Parse(textReader)
-                    .Where(word => !TextFilters.Any(filter => filter.FilterTag(word)))
-                    .Aggregate(result, AddNewTagOrChangeQuantity);
+                var normalizedWords = NormalWordConverter.NormalizeWords(currParser.Parse(textReader));
+
+                if (TextFilters != null)
+                {
+                    normalizedWords
+                        .Where(word => !TextFilters.Any(filter => filter.FilterTag(word)))
+                        .Aggregate(result, AddNewTagOrChangeQuantity);
+                }
+                else
+                {
+                    normalizedWords.Aggregate(result, AddNewTagOrChangeQuantity);
+                }
             }
             return result;
         }

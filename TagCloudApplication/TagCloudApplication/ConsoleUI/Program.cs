@@ -10,11 +10,11 @@ namespace ConsoleUI
         {
             args = new[]
             {
-                "-i", "...text.txt",
-                "-o", "...test.png",
+                "-i", "C:\\Users\\Антон\\Desktop\\di\\TagCloudApplication\\TagCloudApplication\\ConsoleUI\\bin\\Debug\\text.txt",
+                "-o", "C:\\Users\\Антон\\Desktop\\di\\TagCloudApplication\\TagCloudApplication\\ConsoleUI\\bin\\Debug\\test.png",
                 "-f", "Arial",
-                "-w", "1000",
-                "-h", "1000"
+                "-w", "3000",
+                "-h", "3000"
             };
 
             var options = new Options();
