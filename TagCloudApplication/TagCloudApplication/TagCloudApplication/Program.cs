@@ -16,11 +16,12 @@ namespace TagCloudApplication
         {
             args = new[]
             {
-                "-i", "...text.txt",
-                "-o", "...test.png",
+                "-i", "D:\\di\\TagCloudApplication\\TagCloudApplication\\TagCloudApplication\\bin\\Debug\\text.txt",
+                "-o", "D:\\di\\TagCloudApplication\\TagCloudApplication\\TagCloudApplication\\bin\\Debug\\test.gif",
                 "-f", "Arial",
                 "-w", "1000",
-                "-h", "1000"
+                "-h", "1000",
+                "-q", "100"
             };
 
             var options = new Options();
@@ -35,13 +36,14 @@ namespace TagCloudApplication
             var assembly = typeof(Program).Assembly;
             builder.RegisterType<Config>().AsSelf().WithParameters(new List<Parameter>
             {
-                new NamedParameter("cloudBrushes", new List<Brush> {Brushes.Blue}),
+                new NamedParameter("cloudBrushes", new List<Brush> {Brushes.Blue, Brushes.BlueViolet, Brushes.DarkSlateBlue}),
                 new NamedParameter("imgSize", new Size(options.ImgWidth, options.ImgHeight)),
                 new NamedParameter("cloudCenter", new Point(options.ImgWidth / 2, options.ImgHeight / 2)),
                 new NamedParameter("mystemPath", mystemPath),
                 new NamedParameter("textParsers", new List<IParser>{new SimpleTextParser()}),
                 new NamedParameter("textFilters", new List<IFilter>{new BoringWordsFilter(new List<string>{"и"})}),
-                new NamedParameter("fontName", options.Font)
+                new NamedParameter("fontName", options.Font),
+                new NamedParameter("maxWordQuant", options.MaxWordQuant)
             });
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces().SingleInstance();
 

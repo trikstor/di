@@ -28,8 +28,8 @@ namespace TagCloudApplication.Layouter
             rectQuant *= 2;
             wordLength /= 2;
             wordLength = (wordLength == 0) ? 1 : wordLength;
-            return new Size(wordLength * tagWeight * ((imgSize.Width + imgSize.Height) / rectQuant),
-                tagWeight * ((imgSize.Width + imgSize.Height) / rectQuant));
+            return new Size(2 * wordLength * tagWeight * ((imgSize.Width + imgSize.Height) / rectQuant),
+                2 * tagWeight * ((imgSize.Width + imgSize.Height) / rectQuant));
         }
     }
 }

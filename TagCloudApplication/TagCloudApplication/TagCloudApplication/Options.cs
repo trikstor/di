@@ -19,7 +19,10 @@ namespace TagCloudApplication
 
         [Option('h', "height", HelpText = "Высота изображения.")]
         public int ImgHeight { get; set; }
-
+        
+        [Option('q', "quantity", HelpText = "Максимальное кол-во слов в облакке тегов.")]
+        public int MaxWordQuant { get; set; }
+        
         [HelpOption]
         public string GetHelp()
         {
