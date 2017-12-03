@@ -23,7 +23,7 @@ namespace TagCloudApplication.Tests
                 , "mystem.exe");
             TextReader = new Reader(
                 new NormalFormConverter(MystemPath),
-                new List<IParser> {new SimpleTextParser()}, null);
+                new List<IParser> {new SimpleTextParser()}, null, 100);
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace TagCloudApplication.Tests
             var filters = new List<IFilter>();
             filters.Add(new BoringWordsFilter(new List<string> { "царь", "тишина" }));
             var currReader = new Reader(new NormalFormConverter(MystemPath), 
-                new List<IParser> { new SimpleTextParser() }, filters);
+                new List<IParser> { new SimpleTextParser() }, filters, 100);
 
             var expectedResult = new Dictionary<string, int>
             {
@@ -93,7 +93,7 @@ namespace TagCloudApplication.Tests
             var filters = new List<IFilter>();
             filters.Add(new BoringWordsFilter(new List<string> { "царь", "тишина" }));
             var currReader = new Reader(new NormalFormConverter(MystemPath),
-                new List<IParser> { new SimpleTextParser() }, filters);
+                new List<IParser> { new SimpleTextParser() }, filters, 100);
 
             var context = TestContext.CurrentContext;
             var combine = Path.Combine(

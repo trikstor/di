@@ -24,11 +24,12 @@ namespace TagCloudApplication.TextReader
             MaxWordQuant = config.MaxWordQuant;
         }
 
-        public Reader(IWordsConverter normalWordConverter, List<IParser> textParsers, List<IFilter> textFilters)
+        public Reader(IWordsConverter normalWordConverter, List<IParser> textParsers, List<IFilter> textFilters, int maxWordQuant)
         {
             NormalWordConverter = normalWordConverter;
             TextParsers = textParsers;
             TextFilters = textFilters;
+            MaxWordQuant = maxWordQuant;
         }
 
         public Dictionary<string, int> Read(string path)
