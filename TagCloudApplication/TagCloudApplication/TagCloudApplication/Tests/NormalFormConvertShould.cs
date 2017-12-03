@@ -16,7 +16,7 @@ namespace TagCloudApplication.Tests
         public void SetUp()
         {
             Converter = new NormalFormConverter(Path.Combine(
-                Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName
+                Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName
                 , "mystem.exe"));
         }
 

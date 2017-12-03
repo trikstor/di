@@ -17,6 +17,13 @@ namespace TagCloudApplication
             FontName = config.FontName;
         }
         
+        public TagCloudCreator(int minFontSize, int maxFontSize, string fontName)
+        {
+            MinFontSize = minFontSize;
+            MaxFontSize = maxFontSize;
+            FontName = fontName;
+        }
+        
         public Dictionary<string, Font> Create(Dictionary<string, int> tagsCollection)
         {
             var factor = GetTagCollectionFontFactor(GetMaxTagWeight(tagsCollection), MaxFontSize);

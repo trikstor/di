@@ -13,14 +13,16 @@ namespace TagCloudApplication.Tests
     public class ReaderShould
     {
         private Reader TextReader;
+        private string MystemPath;
 
         [SetUp]
         public void SetUp()
         {
+            MystemPath = Path.Combine(
+                Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName
+                , "mystem.exe");
             TextReader = new Reader(
-                new NormalFormConverter(Path.Combine(
-                    Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName
-                    , "mystem.exe")),
+                new NormalFormConverter(MystemPath),
                 new List<IParser> {new SimpleTextParser()}, null);
         }
 
@@ -57,7 +59,6 @@ namespace TagCloudApplication.Tests
                 Directory.GetParent(context.TestDirectory).Parent.FullName,
                 "test.txt"
             );
-
             TextReader.Read(combine).ShouldAllBeEquivalentTo(expectedResult);
         }
 
@@ -66,9 +67,7 @@ namespace TagCloudApplication.Tests
         {
             var filters = new List<IFilter>();
             filters.Add(new BoringWordsFilter(new List<string> { "царь", "тишина" }));
-            var currReader = new Reader(new NormalFormConverter(Path.Combine(
-                Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName
-                , "mystem.exe")), 
+            var currReader = new Reader(new NormalFormConverter(MystemPath), 
                 new List<IParser> { new SimpleTextParser() }, filters);
 
             var expectedResult = new Dictionary<string, int>
@@ -93,18 +92,8 @@ namespace TagCloudApplication.Tests
         {
             var filters = new List<IFilter>();
             filters.Add(new BoringWordsFilter(new List<string> { "царь", "тишина" }));
-            var currReader = new Reader(new NormalFormConverter(Path.Combine(
-                    Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName
-                    , "mystem.exe")),
+            var currReader = new Reader(new NormalFormConverter(MystemPath),
                 new List<IParser> { new SimpleTextParser() }, filters);
-
-            var expectedResult = new Dictionary<string, int>
-            {
-                {"царство", 3},
-                {"земной", 3},
-                {"отрада", 3},
-                {"возлюбленная", 3}
-            };
 
             var context = TestContext.CurrentContext;
             var combine = Path.Combine(
