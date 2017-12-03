@@ -1,46 +1,40 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using TagCloudApplication.Coloring;
+using TagCloudApplication.Layouter;
 
 namespace TagCloudApplication.Renderer
 {
     public class Renderer : IRenderer
     {
-        private Brush TagColor { get; }
-        private string TagFontName { get; }
+        private ILayouter Layouter { get; }
         private Size ImgSize { get; }
         private IColorer Colorer { get; }
 
-        public Renderer(Config config, IColorer colorer)
+        public Renderer(Config config, IColorer colorer, ILayouter layouter)
         {
-            TagColor = config.CloudBrushes[0];
-            TagFontName = config.FontName;
+            Layouter = layouter;
             ImgSize = config.ImgSize;
             Colorer = colorer;
         }
-        public Renderer(Brush color, string fontName, Size imgSize)
-        {
-            TagColor = color;
-            TagFontName = fontName;
-            ImgSize = imgSize;
-        }
-
-        public Bitmap Draw(Dictionary<string, Rectangle> tagList)
+        
+        public Bitmap Draw(Dictionary<string, Font> tagList)
         {
             var bitmap = new Bitmap(ImgSize.Width, ImgSize.Height);
             using (var gr = Graphics.FromImage(bitmap))
             {
                 foreach (var tag in tagList)
-                    gr.DrawString(tag.Key, new Font(TagFontName, GetFontSize(gr, tag.Key, tag.Value)),
+                    gr.DrawString(tag.Key, tag.Value,
                         Colorer.GetColor(tag.Key),
-                        tag.Value.Location);
+                        Layouter.PutNextRectangle(GetRectangleSize(gr, tag.Key, tag.Value)));
             }
             return bitmap;
         }
 
-        private int GetFontSize(Graphics gr, string word, Rectangle rectangle)
+        private Size GetRectangleSize(Graphics gr, string word, Font font)
         {
-            return rectangle.Height / 2;
+            var size = gr.MeasureString(word, font);
+            return new Size((int)size.Width + 1, (int)size.Height);
         }
         
     }

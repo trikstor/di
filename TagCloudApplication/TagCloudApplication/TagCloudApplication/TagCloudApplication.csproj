@@ -69,15 +69,15 @@
     <Compile Include="Filrters\BoringWordsFilter.cs" />
     <Compile Include="Filrters\IFilter.cs" />
     <Compile Include="IConverter.cs" />
+    <Compile Include="ITagCloudCreator.cs" />
     <Compile Include="Layouter\CircularCloudLayouter.cs" />
     <Compile Include="Layouter\ILayouter.cs" />
-    <Compile Include="Layouter\ITagCloudCreator.cs" />
     <Compile Include="Layouter\Spiral.cs" />
-    <Compile Include="Layouter\TagCloudCreator.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Renderer\IRenderer.cs" />
     <Compile Include="Renderer\Renderer.cs" />
+    <Compile Include="TagCloudCreator.cs" />
     <Compile Include="Tests\CircularCloudLayouterShould.cs" />
     <Compile Include="Tests\NormalFormConvertShould.cs" />
     <Compile Include="Tests\ReaderShould.cs" />

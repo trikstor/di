@@ -1,5 +1,4 @@
-﻿using TagCloudApplication.Layouter;
-using TagCloudApplication.Renderer;
+﻿using TagCloudApplication.Renderer;
 using TagCloudApplication.TextReader;
 
 namespace TagCloudApplication

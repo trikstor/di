@@ -5,6 +5,6 @@ namespace TagCloudApplication.Renderer
 {
     public interface IRenderer
     {
-        Bitmap Draw(Dictionary<string, Rectangle> tagList);
+        Bitmap Draw(Dictionary<string, Font> tagList);
     }
 }

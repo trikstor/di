@@ -21,7 +21,9 @@ namespace TagCloudApplication
                 "-f", "Arial",
                 "-w", "1000",
                 "-h", "1000",
-                "-q", "100"
+                "-q", "100",
+                "--minf", "8",
+                "--maxf", "45"
             };
 
             var options = new Options();
@@ -43,7 +45,9 @@ namespace TagCloudApplication
                 new NamedParameter("textParsers", new List<IParser>{new SimpleTextParser()}),
                 new NamedParameter("textFilters", new List<IFilter>{new BoringWordsFilter(new List<string>{"и"})}),
                 new NamedParameter("fontName", options.Font),
-                new NamedParameter("maxWordQuant", options.MaxWordQuant)
+                new NamedParameter("maxWordQuant", options.MaxWordQuant),
+                new NamedParameter("minFontSize", options.MinFontSize),
+                new NamedParameter("maxFontSize", options.MaxFontSize)
             });
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces().SingleInstance();
 

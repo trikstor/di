@@ -17,9 +17,12 @@ namespace TagCloudApplication
         public List<IFilter> TextFilters { get; }
         public string FontName { get; }
         public int MaxWordQuant { get; }
+        public int MinFontSize { get; }
+        public int MaxFontSize { get; }
 
         public Config(List<Brush> cloudBrushes, Size imgSize, Point cloudCenter, 
-            string mystemPath, List<IParser> textParsers, List<IFilter> textFilters, string fontName, int maxWordQuant)
+            string mystemPath, List<IParser> textParsers, List<IFilter> textFilters, string fontName, int maxWordQuant,
+            int minFontSize, int maxFontSize)
         {
             CloudBrushes = cloudBrushes;
             ImgSize = imgSize;
@@ -29,6 +32,8 @@ namespace TagCloudApplication
             TextFilters = textFilters;
             FontName = fontName;
             MaxWordQuant = maxWordQuant;
+            MinFontSize = minFontSize;
+            MaxFontSize = maxFontSize;
         }
     }
 }
