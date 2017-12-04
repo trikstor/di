@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Xml;
 using FluentAssertions;
+using Moq;
 using NUnit.Framework;
 
 namespace TagCloudApplication.Tests
@@ -17,7 +18,8 @@ namespace TagCloudApplication.Tests
         [SetUp]
         public void SetUp()
         {
-            Creator = new TagCloudCreator(MinFontSize, MaxFontSize, FontName);
+            var config = Mock.Of<Config>(x => x.MinFontSize == 8 && x.MaxFontSize == 45 && x.FontName == "Arial");
+            Creator = new TagCloudCreator(config);
         }
         
         [Test]

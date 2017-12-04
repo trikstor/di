@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using TagCloudApplication.Coloring;
+using TagCloudApplication.BrushProvider;
 using TagCloudApplication.Layouter;
 
 namespace TagCloudApplication.Renderer
@@ -9,9 +9,9 @@ namespace TagCloudApplication.Renderer
     {
         private ILayouter Layouter { get; }
         private Size ImgSize { get; }
-        private IColorer Colorer { get; }
+        private IBrushProvider Colorer { get; }
 
-        public Renderer(Config config, IColorer colorer, ILayouter layouter)
+        public Renderer(Config config, IBrushProvider colorer, ILayouter layouter)
         {
             Layouter = layouter;
             ImgSize = config.ImgSize;

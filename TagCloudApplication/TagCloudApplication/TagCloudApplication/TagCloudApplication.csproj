@@ -16,15 +16,16 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\Release</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -36,6 +37,9 @@
     <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc">
+      <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
       <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
     </Reference>
@@ -44,6 +48,12 @@
     </Reference>
     <Reference Include="FluentAssertions.Core, Version=4.19.4.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.19.4\lib\net45\FluentAssertions.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.7.145.0, Culture=neutral, PublicKeyToken=69f491c39445e920">
+      <HintPath>..\packages\Moq.4.7.145\lib\net45\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="NHunspell, Version=1.2.5554.16953, Culture=neutral, PublicKeyToken=1ac793ea843b4366">
+      <HintPath>..\packages\NHunspell.1.2.5554.16953\lib\net\NHunspell.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.9.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.9.0\lib\net45\nunit.framework.dll</HintPath>
@@ -62,8 +72,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Colorer\ColoringAlgo.cs" />
-    <Compile Include="Colorer\IColorer.cs" />
+    <Compile Include="BrushProvider\RandomBrushProvider.cs" />
+    <Compile Include="BrushProvider\IBrushProvider.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="Filrters\BoringWordsFilter.cs" />
@@ -79,20 +89,23 @@
     <Compile Include="Renderer\Renderer.cs" />
     <Compile Include="TagCloudCreator.cs" />
     <Compile Include="Tests\CircularCloudLayouterShould.cs" />
-    <Compile Include="Tests\NormalFormConvertShould.cs" />
     <Compile Include="Tests\ReaderShould.cs" />
     <Compile Include="Tests\SpiralShould.cs" />
     <Compile Include="Tests\TagCloudCreatorShould.cs" />
     <Compile Include="TextReader\IReader.cs" />
-    <Compile Include="TextReader\IWordsConverter.cs" />
-    <Compile Include="TextReader\NormalFormConverter.cs" />
     <Compile Include="Parsers\IParser.cs" />
     <Compile Include="Parsers\SimpleTextParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextReader\Reader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Hunspellx64.dll" />
+    <None Include="Hunspellx86.dll" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dict\ru_RU.aff" />
+    <Content Include="dict\ru_RU.dic" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

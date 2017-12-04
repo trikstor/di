@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TagCloudApplication.Coloring
+namespace TagCloudApplication.BrushProvider
 {
-    public class ColoringAlgo : IColorer
+    public class RandomBrushProvider : IBrushProvider
     {
         private Random Random = new Random();
         private List<Brush> AllBrushes { get; }
 
-        public ColoringAlgo(Config config)
+        public RandomBrushProvider(Config config)
         {
             AllBrushes = config.CloudBrushes;
         }

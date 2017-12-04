@@ -19,14 +19,6 @@ namespace TagCloudApplication.Layouter
             Center = config.CloudCenter;
             AllRectangles = new List<Rectangle>();
         }
-        public CircularCloudLayouter(Point center)
-        {
-            if (center.X < 0 || center.Y < 0)
-                throw new ArgumentException("Coordinates must be positive or zero");
-
-            Center = center;
-            AllRectangles = new List<Rectangle>();
-        }
 
         public Rectangle PutNextRectangle(Size rectangleSize)
         {

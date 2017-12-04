@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TagCloudApplication.Coloring
+namespace TagCloudApplication.BrushProvider
 {
-    public interface IColorer
+    public interface IBrushProvider
     {
         Brush GetColor(string words);
     }
