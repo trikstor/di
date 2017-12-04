@@ -1,1 +1,1 @@
-![alt text](https://github.com/trikstor/di/new/master/TagCloudApplication/TagCloudApplication/test.png)
+![alt text](https://github.com/trikstor/di/blob/master/TagCloudApplication/TagCloudApplication/test.png)
