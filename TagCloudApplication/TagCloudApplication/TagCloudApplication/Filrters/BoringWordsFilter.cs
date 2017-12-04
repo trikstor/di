@@ -6,9 +6,9 @@ namespace TagCloudApplication.Filrters
     {
         private List<string> BoringWords { get; }
         
-        public BoringWordsFilter(List<string> boringWords)
+        public BoringWordsFilter(List<string> boringWords = null)
         {
-            BoringWords = boringWords;
+            BoringWords = boringWords ?? new List<string>();
         }
 
         public bool FilterTag(string tag)

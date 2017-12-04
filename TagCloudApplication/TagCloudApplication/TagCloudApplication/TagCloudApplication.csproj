@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>.\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -64,6 +64,7 @@
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -74,12 +75,12 @@
   <ItemGroup>
     <Compile Include="BrushProvider\RandomBrushProvider.cs" />
     <Compile Include="BrushProvider\IBrushProvider.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="Converter.cs" />
     <Compile Include="Filrters\BoringWordsFilter.cs" />
     <Compile Include="Filrters\IFilter.cs" />
+    <Compile Include="IConfig.cs" />
     <Compile Include="IConverter.cs" />
     <Compile Include="ITagCloudCreator.cs" />
+    <Compile Include="ITagsCreator.cs" />
     <Compile Include="Layouter\CircularCloudLayouter.cs" />
     <Compile Include="Layouter\ILayouter.cs" />
     <Compile Include="Layouter\Spiral.cs" />
@@ -87,11 +88,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Renderer\IRenderer.cs" />
     <Compile Include="Renderer\Renderer.cs" />
+    <Compile Include="Tag.cs" />
     <Compile Include="TagCloudCreator.cs" />
+    <Compile Include="TagsCreator.cs" />
     <Compile Include="Tests\CircularCloudLayouterShould.cs" />
     <Compile Include="Tests\ReaderShould.cs" />
     <Compile Include="Tests\SpiralShould.cs" />
-    <Compile Include="Tests\TagCloudCreatorShould.cs" />
+    <Compile Include="Tests\TagsCreatorShould.cs" />
     <Compile Include="TextReader\IReader.cs" />
     <Compile Include="Parsers\IParser.cs" />
     <Compile Include="Parsers\SimpleTextParser.cs" />
@@ -99,8 +102,6 @@
     <Compile Include="TextReader\Reader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Hunspellx64.dll" />
-    <None Include="Hunspellx86.dll" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

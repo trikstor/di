@@ -14,16 +14,14 @@ namespace TagCloudApplication.TextReader
     {
         private List<IParser> TextParsers { get; }
         private List<IFilter> TextFilters { get; }
-        private int MaxWordQuant { get; }
 
-        public Reader(Config config)
+        public Reader(List<IParser> parsers, List<IFilter> filters)
         {
-            MaxWordQuant = config.MaxWordQuant;
-            TextParsers = new List<IParser> {new SimpleTextParser()};
-            TextFilters = new List<IFilter> {new BoringWordsFilter(new List<string> {"и"})};
+            TextParsers = parsers;
+            TextFilters = filters;
         }
 
-        public Dictionary<string, int> Read(string path)
+        public Dictionary<string, int> Read(string path, int maxWordQuant)
         {
             var nameExtensions = TextParsers.SelectMany(x => x.FileExtentions);
             var currNameExtention = Path.GetExtension(path);
@@ -34,8 +32,7 @@ namespace TagCloudApplication.TextReader
             Dictionary<string, int> result;
             using (var textReader = new StreamReader(path, Encoding.UTF8))
             {
-                using (var hunspell = new Hunspell(@"C:\Users\Acer\Saved Games\Desktop\di\TagCloudApplication\TagCloudApplication\TagCloudApplication\dict\ru_RU.aff", 
-                    @"C:\Users\Acer\Saved Games\Desktop\di\TagCloudApplication\TagCloudApplication\TagCloudApplication\dict\ru_RU.dic"))
+                using (var hunspell = new Hunspell(@"dict\ru_RU.aff", @"dict\ru_RU.dic"))
                 {
                     var parsedWords = currParser.Parse(textReader);
                     result = parsedWords
@@ -48,7 +45,7 @@ namespace TagCloudApplication.TextReader
                         .Where(word => TextFilters?.Any(filter => filter.FilterTag(word)) ?? true)
                         .GroupBy(word => word)
                         .OrderByDescending(word => word.Count())
-                        .Take(MaxWordQuant)
+                        .Take(maxWordQuant)
                         .ToDictionary(word => word.Key, word => word.Count());
                 }
             }

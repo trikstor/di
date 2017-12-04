@@ -5,7 +5,9 @@ using System.IO;
 using Autofac;
 using Autofac.Core;
 using CommandLine;
+using NUnit.Framework;
 using TagCloudApplication.Filrters;
+using TagCloudApplication.Layouter;
 using TagCloudApplication.Parsers;
 using TagCloudApplication.TextReader;
 
@@ -17,33 +19,38 @@ namespace TagCloudApplication
         {
             args = new[]
             {
-                "-i", "C:\\Users\\Acer\\Saved Games\\Desktop\\di\\TagCloudApplication\\TagCloudApplication\\TagCloudApplication\\bin\\Debug\\text.txt",
-                "-o", "C:\\Users\\Acer\\Saved Games\\Desktop\\di\\TagCloudApplication\\TagCloudApplication\\TagCloudApplication\\bin\\Debug\\test.gif",
+                "-i", "...text.txt",
+                "-o", "...test.gif",
                 "-f", "Arial",
                 "-w", "1000",
                 "-h", "1000",
-                "-q", "100",
+                "-q", "50",
                 "--minf", "8",
-                "--maxf", "45"
+                "--maxf", "50"
             };
 
             var options = new Options();
             if(!Parser.Default.ParseArguments(args, options))
                 return;
 
+            var parsers = new List<IParser>
+            {
+                new SimpleTextParser()
+            };
+            var filters = new List<IFilter>
+            {
+                new BoringWordsFilter()
+            };
             var builder = new ContainerBuilder();
             var assembly = typeof(Program).Assembly;
-            builder.Register(_ => new Config(new List<Brush> {Brushes.Blue, Brushes.BlueViolet, Brushes.DarkSlateBlue},
-                new Size(options.ImgWidth, options.ImgHeight),
-                new Point(options.ImgWidth / 2, options.ImgHeight / 2),
-                options.Font,
-                options.MaxWordQuant,
-                options.MinFontSize,
-                options.MaxFontSize)).SingleInstance();
-            
-            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<Reader>().As<IReader>().WithParameters(new List<Parameter>
+            {
+                new NamedParameter("parsers", parsers),
+                new NamedParameter("filters", filters)
 
-            builder.Build().Resolve<IConverter>().FromTextToImg(options.InputPath, options.ImgPath);
+            });
+            builder.Build().Resolve<ITagCloudCreator>().Create(options);
         }
     }
 }

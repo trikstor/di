@@ -10,16 +10,10 @@ namespace TagCloudApplication.BrushProvider
     public class RandomBrushProvider : IBrushProvider
     {
         private Random Random = new Random();
-        private List<Brush> AllBrushes { get; }
-
-        public RandomBrushProvider(Config config)
-        {
-            AllBrushes = config.CloudBrushes;
-        }
         
-        public Brush GetColor(string words)
+        public Brush GetColor(string words, List<Brush> cloudBrushes)
         {
-            return AllBrushes[Random.Next(0, AllBrushes.Count)];
+            return cloudBrushes[Random.Next(0, cloudBrushes.Count)];
         }
     }
 }

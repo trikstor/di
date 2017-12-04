@@ -12,24 +12,21 @@ namespace TagCloudApplication.Tests
     [TestFixture]
     public class CircularCloudLayouterShould
     {
-        private CircularCloudLayouter Layout {get; set;}
+        private CircularCloudLayouter Layouter {get; set;}
         private Point Center { get; set; }
 
         [SetUp]
         public void SetUp()
         {
             Center = new Point(500, 500);
-            var config = Mock.Of<Config>(
-                x => x.CloudCenter == Center);
-            Layout = new CircularCloudLayouter(config);
+            Layouter = new CircularCloudLayouter();
+            Layouter.SetLayouterSettings(Center);
         }
 
         [TestCase(-10, 5, "Coordinates must be positive or zero", TestName = "Create a new layout with negative cordinate(s)")]
         public void ThrowException_UncorrectParams(int x, int y, string exMessage)
         {
-            var config = Mock.Of<Config>(
-                t => t.CloudCenter == new Point(x, y));
-            Action res = () => { new CircularCloudLayouter(config); };
+            Action res = () => { Layouter.SetLayouterSettings(new Point(x, y)); };
             res.ShouldThrow<ArgumentException>().WithMessage(exMessage);
         }
 
@@ -37,7 +34,7 @@ namespace TagCloudApplication.Tests
             TestName = "Create a new rectangle with negative or zero size")]
         public void PutNextRectangle_ThrowException(int width, int height, string exMessage)
         {
-            Action res = () => { Layout.PutNextRectangle(new Size(width, height));};
+            Action res = () => { Layouter.PutNextRectangle(new Size(width, height));};
             res.ShouldThrow<ArgumentException>().WithMessage(exMessage);
         }
 
@@ -53,7 +50,7 @@ namespace TagCloudApplication.Tests
 
             foreach (var size in sizeOfRectangles)
             {
-                allRect.Add(Layout.PutNextRectangle(size));
+                allRect.Add(Layouter.PutNextRectangle(size));
             }
 
             allRect.Count.Should().Be(expectedQuantity);
@@ -84,7 +81,7 @@ namespace TagCloudApplication.Tests
 
                 foreach (var size in sizeOfRectangles)
                 {
-                    allRect.Add(Layout.PutNextRectangle(size));
+                    allRect.Add(Layouter.PutNextRectangle(size));
                 }
             return allRect;
         }
@@ -92,7 +89,7 @@ namespace TagCloudApplication.Tests
         [Test]
         public void PutNextRectangle_OneRectangle_CenterOfRectСalibration()
         {
-            Layout.PutNextRectangle(new Size(200, 100)).Location.Should().Be(new Point(400, 450));
+            Layouter.PutNextRectangle(new Size(200, 100)).Location.Should().Be(new Point(400, 450));
         }
 
         private int DistanceBetweenPoints(Point p1, Point p2)
@@ -122,7 +119,7 @@ namespace TagCloudApplication.Tests
             var allRect = new List<Rectangle>();
             for (var i = 0; i < 7; i++)
             {
-                allRect.Add(Layout.PutNextRectangle(new Size(100, 100)));
+                allRect.Add(Layouter.PutNextRectangle(new Size(100, 100)));
             }
             (MaxCenterEnvirons(allRect) + MaxRectDiagonal(allRect))
                 .Should().BeLessThan(352);

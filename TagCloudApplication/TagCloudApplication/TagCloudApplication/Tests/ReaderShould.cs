@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using FluentAssertions;
-using Moq;
 using NUnit.Framework;
 using TagCloudApplication.Filrters;
 using TagCloudApplication.Parsers;
@@ -14,25 +13,35 @@ namespace TagCloudApplication.Tests
     public class ReaderShould
     {
         private Reader TextReader;
+        private List<IParser> Parsers;
+        private List<IFilter> Filters;
+        private readonly int MaxWordQuant = 100;
 
         [SetUp]
         public void SetUp()
         {
-            var config = Mock.Of<Config>( x => x.MaxWordQuant == 100);
-            TextReader = new Reader(config);
+            Parsers = new List<IParser>
+            {
+                new SimpleTextParser()
+            };
+            Filters = new List<IFilter>
+            {
+                new BoringWordsFilter()
+            };
+            TextReader = new Reader(Parsers, null);
         }
 
         [Test]
         public void ThrowException_InvalidInputPath()
         {
-            Action result = () => { TextReader.Read("/invalidPath/text.txt"); };
+            Action result = () => { TextReader.Read("/invalidPath/text.txt", MaxWordQuant); };
             result.ShouldThrow<ArgumentException>().WithMessage("Неверный путь к текстовому файлу.");
         }
 
         [Test]
         public void ThrowException_InvalidFileNameExtension()
         {
-            Action result = () => { TextReader.Read("/invalidPath/text.pdf"); };
+            Action result = () => { TextReader.Read("/invalidPath/text.pdf", MaxWordQuant); };
             result.ShouldThrow<ArgumentException>().WithMessage("Расширение .pdf не поддерживается.");
         }
 
@@ -46,41 +55,41 @@ namespace TagCloudApplication.Tests
                 {"царство", 3},
                 {"земной", 3},
                 {"отрада", 3},
-                {"возлюбленная", 3},
+                {"возлюбленный", 3},
                 {"тишина", 1}
             };
 
             var context = TestContext.CurrentContext;
             var combine = Path.Combine(
-                Directory.GetParent(context.TestDirectory).Parent.FullName,
-                "test.txt"
+                Directory.GetParent(context.TestDirectory).FullName,
+                "TagCloudApplication\\test.txt"
             );
-            TextReader.Read(combine).ShouldAllBeEquivalentTo(expectedResult);
+            Console.WriteLine(combine);
+            TextReader.Read(combine, MaxWordQuant).ShouldAllBeEquivalentTo(expectedResult);
         }
-        /*
+
         [Test]
         public void GiveCorrectTagsWithWeightAndFilters_CorrectPathAndSimpleText()
         {
             var filters = new List<IFilter>();
             filters.Add(new BoringWordsFilter(new List<string> { "царь", "тишина" }));
-            var currReader = new Reader(new NormalFormConverter(MystemPath), 
-                new List<IParser> { new SimpleTextParser() }, filters, 100);
+            var currReader = new Reader(Parsers, filters);
 
             var expectedResult = new Dictionary<string, int>
             {
                 {"царство", 3},
                 {"земной", 3},
                 {"отрада", 3},
-                {"возлюбленная", 3}
+                {"возлюбленный", 3}
             };
 
             var context = TestContext.CurrentContext;
             var combine = Path.Combine(
-                Directory.GetParent(context.TestDirectory).Parent.FullName,
-                "test.txt"
+                Directory.GetParent(context.TestDirectory).FullName,
+                "TagCloudApplication\\test.txt"
             );
 
-            currReader.Read(combine).ShouldAllBeEquivalentTo(expectedResult);
+            currReader.Read(combine, MaxWordQuant).ShouldAllBeEquivalentTo(expectedResult);
         }
 
         [Test]
@@ -88,18 +97,16 @@ namespace TagCloudApplication.Tests
         {
             var filters = new List<IFilter>();
             filters.Add(new BoringWordsFilter(new List<string> { "царь", "тишина" }));
-            var currReader = new Reader(new NormalFormConverter(MystemPath),
-                new List<IParser> { new SimpleTextParser() }, filters, 100);
+            var currReader = new Reader(Parsers, Filters);
 
             var context = TestContext.CurrentContext;
             var combine = Path.Combine(
-                Directory.GetParent(context.TestDirectory).Parent.FullName,
-                "bigTest.txt"
+                Directory.GetParent(context.TestDirectory).FullName,
+                "TagCloudApplication\\bigTest.txt"
             );
 
-            var actual = currReader.Read(combine);
-            actual["твой"].Should().Be(14);
+            var actual = currReader.Read(combine, MaxWordQuant);
+            actual["тебя"].Should().Be(6);
         }
-        */
     }
 }

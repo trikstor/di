@@ -4,6 +4,6 @@ namespace TagCloudApplication.TextReader
 {
     public interface IReader
     {
-        Dictionary<string, int> Read(string path);
+        Dictionary<string, int> Read(string path, int maxWordQuant);
     }
 }

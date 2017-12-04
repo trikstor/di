@@ -8,34 +8,24 @@ namespace TagCloudApplication.Renderer
     public class Renderer : IRenderer
     {
         private ILayouter Layouter { get; }
-        private Size ImgSize { get; }
         private IBrushProvider Colorer { get; }
 
-        public Renderer(Config config, IBrushProvider colorer, ILayouter layouter)
+        public Renderer(IBrushProvider colorer, ILayouter layouter)
         {
             Layouter = layouter;
-            ImgSize = config.ImgSize;
             Colorer = colorer;
         }
         
-        public Bitmap Draw(Dictionary<string, Font> tagList)
+        public Bitmap Draw(IEnumerable<Tag> tagList, Size imgSize, List<Brush> brushes)
         {
-            var bitmap = new Bitmap(ImgSize.Width, ImgSize.Height);
+            var bitmap = new Bitmap(imgSize.Width, imgSize.Height);
             using (var gr = Graphics.FromImage(bitmap))
             {
                 foreach (var tag in tagList)
-                    gr.DrawString(tag.Key, tag.Value,
-                        Colorer.GetColor(tag.Key),
-                        Layouter.PutNextRectangle(GetRectangleSize(gr, tag.Key, tag.Value)));
+                    gr.DrawString(tag.Word, 
+                        tag.Font, Colorer.GetColor(tag.Word, brushes), tag.Rectangle);
             }
             return bitmap;
-        }
-
-        private Size GetRectangleSize(Graphics gr, string word, Font font)
-        {
-            var size = gr.MeasureString(word, font);
-            return new Size((int)size.Width + 1, (int)size.Height);
-        }
-        
+        }      
     }
 }

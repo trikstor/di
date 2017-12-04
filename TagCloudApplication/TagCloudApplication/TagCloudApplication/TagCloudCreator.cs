@@ -1,45 +1,41 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TagCloudApplication.Layouter;
+using TagCloudApplication.Renderer;
+using TagCloudApplication.TextReader;
 
 namespace TagCloudApplication
 {
     public class TagCloudCreator : ITagCloudCreator
     {
-        private string FontName { get; }
-        private int MinFontSize { get; }
-        private int MaxFontSize { get; }
+        public IReader Reader { get; }
+        public ITagsCreator TagsCreator { get; }
+        public IRenderer Renderer { get; }
+        public ILayouter Layouter { get; }
 
-        public TagCloudCreator(Config config)
+        public TagCloudCreator(IReader reader, ITagsCreator tagsCreator, IRenderer renderer, ILayouter layouter)
         {
-            MinFontSize = config.MinFontSize;
-            MaxFontSize = config.MaxFontSize;
-            FontName = config.FontName;
-        }
-        
-        public Dictionary<string, Font> Create(Dictionary<string, int> tagsCollection)
-        {
-            var factor = GetTagCollectionFontFactor(GetMaxTagWeight(tagsCollection), MaxFontSize);
-            var res = tagsCollection
-                .OrderByDescending(pair => pair.Value)
-                .ToDictionary(tag => tag.Key,
-                    tag => new Font(FontName, GetTagFontSize(tag.Value, factor, MinFontSize)));
-            return res;
+            Reader = reader;
+            TagsCreator = tagsCreator;
+            Renderer = renderer;
+            Layouter = layouter;
         }
 
-        private int GetMaxTagWeight(Dictionary<string, int> tagsCollection)
+        public void Create(Options options)
         {
-            return tagsCollection.Max(tag => tag.Value);
-        }
-        
-        private double GetTagCollectionFontFactor(int maxTagWeight, int maxFontSize) => 
-            maxFontSize / maxTagWeight;
+            var cloudBrushes = new List<Brush> { Brushes.Blue, Brushes.BlueViolet, Brushes.DarkSlateBlue };
+            var imgSize = new Size(options.ImgWidth, options.ImgHeight);
+            var imgCenter = new Point(options.ImgWidth / 2, options.ImgHeight / 2);
 
-        private int GetTagFontSize(int tagWeight, double factor, int minFontSize)
-        {
-            var fontSize = tagWeight * factor;
-
-            return (int) (fontSize >= minFontSize ? fontSize : minFontSize);
+            Layouter.SetLayouterSettings(imgCenter);
+            var tagsCollection = Reader.Read(options.InputPath, options.MaxWordQuant);
+            var tagRectangles = TagsCreator.Create(tagsCollection, options.MinFontSize, options.MaxFontSize, options.Font);
+            var bitmap = Renderer.Draw(tagRectangles, imgSize, cloudBrushes);
+            bitmap.Save(options.ImgPath);
         }
     }
 }
