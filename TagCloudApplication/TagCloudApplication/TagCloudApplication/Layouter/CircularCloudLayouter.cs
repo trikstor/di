@@ -7,17 +7,15 @@ namespace TagCloudApplication.Layouter
 {
     public class CircularCloudLayouter : ILayouter
     {
-        private List<Rectangle> AllRectangles { get; set; }
+        private List<Rectangle> AllRectangles = new List<Rectangle>();
         private IEnumerator<Point> CloudSpiral { get; set; }
         private Point Center { get; set; }
 
-        public void SetLayouterSettings(Point center)
+        public CircularCloudLayouter(Point center)
         {
             if (center.X < 0 || center.Y < 0)
                 throw new ArgumentException("Coordinates must be positive or zero");
-
             Center = center;
-            AllRectangles = new List<Rectangle>();
         }
 
         public Rectangle PutNextRectangle(Size rectangleSize)

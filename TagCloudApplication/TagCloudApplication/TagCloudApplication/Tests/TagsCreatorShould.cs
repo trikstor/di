@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using FluentAssertions;
+using Moq;
 using NUnit.Framework;
 using TagCloudApplication.Layouter;
 
@@ -17,8 +18,7 @@ namespace TagCloudApplication.Tests
         [SetUp]
         public void SetUp()
         {
-            var layouter = new CircularCloudLayouter();
-            layouter.SetLayouterSettings(new Point(500, 500));
+            var layouter = Mock.Of <ILayouter>(x => x.PutNextRectangle(It.IsAny<Size>()) == Rectangle.Empty);
             Creator = new TagsCreator(layouter);
         }
         
@@ -31,11 +31,11 @@ namespace TagCloudApplication.Tests
                 {"ананас", 2},
                 {"яблоко", 1}
             };
-            var expected = new List<Tag>()
+            var expected = new List<Tag>
             {
-                new Tag("арбуз", new Font(FontName, 45), new Rectangle(new Point(407, 467), new Size(186, 67))),
-                new Tag("ананас", new Font(FontName, 30), new Rectangle(new Point(425, 422), new Size(149, 45))),
-                new Tag("яблоко", new Font(FontName, 15), new Rectangle(new Point(462, 534), new Size(74, 23)))
+                new Tag("арбуз", new Font(FontName, 45), Rectangle.Empty),
+                new Tag("ананас", new Font(FontName, 30), Rectangle.Empty),
+                new Tag("яблоко", new Font(FontName, 15), Rectangle.Empty)
             };
             Creator.Create(tagCollection, MinFontSize, MaxFontSize, FontName).ShouldBeEquivalentTo(expected, options => 
                 options.Excluding(pr => pr.SelectedMemberInfo.Name == "NativeFont"));   

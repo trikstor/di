@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using NUnit.Framework;
 using FluentAssertions;
-using Moq;
 using TagCloudApplication.Layouter;
 
 namespace TagCloudApplication.Tests
@@ -19,19 +18,18 @@ namespace TagCloudApplication.Tests
         public void SetUp()
         {
             Center = new Point(500, 500);
-            Layouter = new CircularCloudLayouter();
-            Layouter.SetLayouterSettings(Center);
+            Layouter = new CircularCloudLayouter(Center);
         }
 
-        [TestCase(-10, 5, "Coordinates must be positive or zero", TestName = "Create a new layout with negative cordinate(s)")]
+        [TestCase(-10, 5, "Coordinates must be positive or zero", TestName = "CreateAndSave a new layout with negative cordinate(s)")]
         public void ThrowException_UncorrectParams(int x, int y, string exMessage)
         {
-            Action res = () => { Layouter.SetLayouterSettings(new Point(x, y)); };
+            Action res = () => { new CircularCloudLayouter(new Point(x, y)); };
             res.ShouldThrow<ArgumentException>().WithMessage(exMessage);
         }
 
         [TestCase(0, 5, "Size must be positive", 
-            TestName = "Create a new rectangle with negative or zero size")]
+            TestName = "CreateAndSave a new rectangle with negative or zero size")]
         public void PutNextRectangle_ThrowException(int width, int height, string exMessage)
         {
             Action res = () => { Layouter.PutNextRectangle(new Size(width, height));};

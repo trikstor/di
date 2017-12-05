@@ -12,16 +12,16 @@ namespace TagCloudApplication.TextReader
 {
     public class Reader : IReader
     {
-        private List<IParser> TextParsers { get; }
-        private List<IFilter> TextFilters { get; }
+        private IList<IParser> TextParsers { get; }
+        private IList<IFilter> TextFilters { get; }
 
-        public Reader(List<IParser> parsers, List<IFilter> filters)
+        public Reader(IList<IParser> parsers, IList<IFilter> filters)
         {
             TextParsers = parsers;
             TextFilters = filters;
         }
 
-        public Dictionary<string, int> Read(string path, int maxWordQuant)
+        public Dictionary<string, int> Read(string path, int maxWordQuant, string affPath, string dicPath)
         {
             var nameExtensions = TextParsers.SelectMany(x => x.FileExtentions);
             var currNameExtention = Path.GetExtension(path);
@@ -32,7 +32,7 @@ namespace TagCloudApplication.TextReader
             Dictionary<string, int> result;
             using (var textReader = new StreamReader(path, Encoding.UTF8))
             {
-                using (var hunspell = new Hunspell(@"dict\ru_RU.aff", @"dict\ru_RU.dic"))
+                using (var hunspell = new Hunspell(affPath, dicPath))
                 {
                     var parsedWords = currParser.Parse(textReader);
                     result = parsedWords

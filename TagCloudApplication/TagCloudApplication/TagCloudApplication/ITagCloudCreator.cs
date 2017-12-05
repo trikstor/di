@@ -8,6 +8,7 @@ namespace TagCloudApplication
 {
     public interface ITagCloudCreator
     {
-        void Create(Options options);
+        IEnumerable<Tag> CreateTags(Options options);
+        void CreateAndSave(Options options);
     }
 }

@@ -94,6 +94,7 @@
     <Compile Include="Tests\CircularCloudLayouterShould.cs" />
     <Compile Include="Tests\ReaderShould.cs" />
     <Compile Include="Tests\SpiralShould.cs" />
+    <Compile Include="Tests\TagCloudCreatorShould.cs" />
     <Compile Include="Tests\TagsCreatorShould.cs" />
     <Compile Include="TextReader\IReader.cs" />
     <Compile Include="Parsers\IParser.cs" />
