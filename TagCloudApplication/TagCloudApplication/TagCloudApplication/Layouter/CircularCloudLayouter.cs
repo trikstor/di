@@ -7,7 +7,7 @@ namespace TagCloudApplication.Layouter
 {
     public class CircularCloudLayouter : ILayouter
     {
-        private List<Rectangle> AllRectangles = new List<Rectangle>();
+        private List<Rectangle> AllRectangles { get; } = new List<Rectangle>();
         private IEnumerator<Point> CloudSpiral { get; set; }
         private Point Center { get; set; }
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -16,7 +17,6 @@ namespace TagCloudApplication.Tests
     {
         private Reader TextReader;
         private IList<IParser> Parsers;
-        private IList<IFilter> Filters;
         private readonly int MaxWordQuant = 100;
         private string DictPath;
         private string AffPath;
@@ -24,18 +24,39 @@ namespace TagCloudApplication.Tests
         [SetUp]
         public void SetUp()
         {
+            var context = TestContext.CurrentContext;
+            var parsedTestText = ParseTestText(Path.Combine(context.TestDirectory, "test.txt"));
             Parsers = new List<IParser>
             {
-                new SimpleTextParser()
+                Mock.Of<IParser>(x => x.FileExtentions == new[] {".txt"} 
+                && x.Parse(It.IsAny<StreamReader>()) == parsedTestText)
             };
-            Filters = new List<IFilter>
+            var filters = new List<IFilter>
             {
-                new BoringWordsFilter()
+                Mock.Of<IFilter>(x => x.FilterTag(It.IsAny<string>()))
             };
-            TextReader = new Reader(Parsers, null);
+
+            TextReader = new Reader(Parsers, filters);
             var projPath = AppDomain.CurrentDomain.BaseDirectory;
             DictPath = Path.Combine(projPath, "dict\\ru_RU.dic");
             AffPath = Path.Combine(projPath, "dict\\ru_RU.aff");
+        }
+
+        private IEnumerable<string> ParseTestText(string path)
+        {
+            using (var textReader = new StreamReader(path, Encoding.UTF8))
+            {
+                string currStr;
+                while ((currStr = textReader.ReadLine()) != null)
+                {
+                    foreach (var word in currStr.Split(
+                        new[] {' ', '.', ',', ':', ';', '!', '?', '\t', '–'},
+                        StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        yield return word;
+                    }
+                }
+            }
         }
 
         [Test]
@@ -93,20 +114,6 @@ namespace TagCloudApplication.Tests
 
             var tt = currReader.Read(combine, MaxWordQuant, DictPath, AffPath);
             currReader.Read(combine, MaxWordQuant, DictPath, AffPath).ShouldAllBeEquivalentTo(expectedResult);
-        }
-
-        [Test]
-        public void GiveCorrectTagsWithWeightAndFilters_CorrectPathAndBigSimpleText()
-        {
-            var filters = new List<IFilter>();
-            filters.Add(new BoringWordsFilter(new List<string> { "царь", "тишина" }));
-            var currReader = new Reader(Parsers, Filters);
-
-            var context = TestContext.CurrentContext;
-            var combine = Path.Combine(context.TestDirectory, "bigTest.txt");
-
-            var actual = currReader.Read(combine, MaxWordQuant, DictPath, AffPath);
-            actual["тебя"].Should().Be(6);
         }
     }
 }

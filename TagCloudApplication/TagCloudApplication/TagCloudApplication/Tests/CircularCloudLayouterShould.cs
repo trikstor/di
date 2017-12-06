@@ -54,7 +54,7 @@ namespace TagCloudApplication.Tests
             allRect.Count.Should().Be(expectedQuantity);
         }
 
-        public static bool RectanglesNotOverlap(List<Rectangle> rectangles)
+        private bool RectanglesNotOverlap(List<Rectangle> rectangles)
         {
             return rectangles.All(currRect => !rectangles
             .Any(rect => rect.IntersectsWith(currRect) && rect.Size != currRect.Size));
