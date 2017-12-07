@@ -17,7 +17,7 @@ namespace TagCloudApplication.Tests
     {
         private Reader TextReader;
         private IList<IParser> Parsers;
-        private readonly int MaxWordQuant = 100;
+        private readonly int MaxWordQuant = 10;
         private string DictPath;
         private string AffPath;
 
@@ -78,17 +78,21 @@ namespace TagCloudApplication.Tests
         {
             var expectedResult = new Dictionary<string, int>
             {
-                {"царей", 3},
-                {"царств", 3},
-                {"земных", 3},
-                {"отрада", 3},
-                {"возлюбленная", 3},
-                {"и", 2},
-                {"тишина", 1}
+                {"в", 40},
+                {"и", 38},
+                {"на", 12},
+                {"с", 10},
+                {"где", 10},
+                {"но", 8},
+                {"не", 9},
+                {"о", 7},
+                {"от", 7},
+                {"тебя", 6}
             };
 
             var context = TestContext.CurrentContext;
             var combine = Path.Combine(context.TestDirectory, "test.txt");
+            var tt = TextReader.Read(combine, MaxWordQuant, DictPath, AffPath);
             TextReader.Read(combine, MaxWordQuant, DictPath, AffPath).ShouldAllBeEquivalentTo(expectedResult);
         }
 
@@ -97,22 +101,26 @@ namespace TagCloudApplication.Tests
         {
             var filters = new List<IFilter>
             {
-                new BoringWordsFilter(new List<string> {"земных", "тишина"})
+                new BoringWordsFilter(new List<string> {"коль", "твои"})
             };
             var currReader = new Reader(Parsers, filters);
 
             var expectedResult = new Dictionary<string, int>
             {
-                {"царей", 3},
-                {"царств", 3},
-                {"отрада", 3},
-                {"возлюбленная", 3}
+                {"тебя", 6},
+                {"когда", 5},
+                {"свой", 4},
+                {"россию", 4},
+                {"твоих", 4},
+                {"науки", 4},
+                {"тебе", 4},
+                {"щедроты", 3},
+                {"наших", 3},
+                {"путь", 3}
             };
 
             var context = TestContext.CurrentContext;
             var combine = Path.Combine(context.TestDirectory,"test.txt");
-
-            var tt = currReader.Read(combine, MaxWordQuant, DictPath, AffPath);
             currReader.Read(combine, MaxWordQuant, DictPath, AffPath).ShouldAllBeEquivalentTo(expectedResult);
         }
     }
