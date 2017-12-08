@@ -9,18 +9,19 @@ namespace TagCloudApplication.Parsers
         public string[] FileExtentions { get; } 
             = { ".txt" };
 
-        public IEnumerable<string> Parse(StreamReader textReader)
+        public IEnumerable<string> Parse(StreamReader fileReader)
         {
             string currStr;
-            while ((currStr = textReader.ReadLine()) != null)
+            while ((currStr = fileReader.ReadLine()) != null)
             {
                 foreach (var word in currStr.Split(
-                    new[] {' ', '.', ',', ':', ';', '!', '?', '\t', '–'},
+                    new[] { ' ', '.', ',', ':', ';', '!', '?', '\t', '–' },
                     StringSplitOptions.RemoveEmptyEntries))
                 {
                     yield return word;
                 }
             }
+
         }
     }
 }

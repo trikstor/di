@@ -6,6 +6,6 @@ namespace TagCloudApplication.Parsers
     public interface IParser
     {
         string[] FileExtentions { get; }
-        IEnumerable<string> Parse(StreamReader textrReader);
+        IEnumerable<string> Parse(StreamReader fileReader);
     }
 }

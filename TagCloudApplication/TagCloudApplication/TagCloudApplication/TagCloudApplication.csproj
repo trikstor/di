@@ -64,6 +64,9 @@
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -85,29 +88,32 @@
     <Compile Include="Layouter\ILayouter.cs" />
     <Compile Include="Layouter\Spiral.cs" />
     <Compile Include="Options.cs" />
+    <Compile Include="Parsers\IParser.cs" />
+    <Compile Include="Parsers\SimpleTextParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Renderer\IRenderer.cs" />
     <Compile Include="Renderer\Renderer.cs" />
     <Compile Include="Tag.cs" />
     <Compile Include="TagCloudCreator.cs" />
     <Compile Include="TagsCreator.cs" />
+    <Compile Include="FileReader\IFileReader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FileReader\FileReader.cs" />
+    <Compile Include="StatProvider\IStatisticsProvider.cs" />
+    <Compile Include="StatProvider\StatisticsProvider.cs" />
+    <Compile Include="Tests\BoringWordsFilterShould.cs" />
     <Compile Include="Tests\CircularCloudLayouterShould.cs" />
-    <Compile Include="Tests\ReaderShould.cs" />
+    <Compile Include="Tests\StatisticsProviderShould.cs" />
     <Compile Include="Tests\SpiralShould.cs" />
     <Compile Include="Tests\TagCloudCreatorShould.cs" />
     <Compile Include="Tests\TagsCreatorShould.cs" />
-    <Compile Include="TextReader\IReader.cs" />
-    <Compile Include="Parsers\IParser.cs" />
-    <Compile Include="Parsers\SimpleTextParser.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TextReader\Reader.cs" />
+    <Compile Include="WordsNormalizer\INormalizer.cs" />
+    <Compile Include="WordsNormalizer\Normalizer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="dict\ru_RU.aff" />
+    <None Include="dict\ru_RU.dic" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="dict\ru_RU.aff" />
-    <Content Include="dict\ru_RU.dic" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

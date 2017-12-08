@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using FluentAssertions;
@@ -7,7 +6,7 @@ using Moq;
 using NUnit.Framework;
 using TagCloudApplication.Layouter;
 using TagCloudApplication.Renderer;
-using TagCloudApplication.TextReader;
+using TagCloudApplication.StatProvider;
 
 namespace TagCloudApplication.Tests
 {
@@ -28,12 +27,11 @@ namespace TagCloudApplication.Tests
                 {"гранат", 1},
                 {"яблоко", 1}
             };
-            var reader = Mock.Of<IReader>(x => x.Read(It.IsAny<string>(),
-                                                   It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()) ==
+            var statProvider = Mock.Of<IStatisticsProvider>(x => x.GetStatistic(It.IsAny<string>(), It.IsAny<int>()) ==
                                                DefaultTags);
             var renderer = Mock.Of<IRenderer>();
             var tagsCreator = new TagsCreator(new CircularCloudLayouter(new Point(0, 0)));
-            TagCloudCreator = new TagCloudCreator(reader, tagsCreator, renderer);
+            TagCloudCreator = new TagCloudCreator(statProvider, tagsCreator, renderer);
         }
 
         [Test]
@@ -51,7 +49,7 @@ namespace TagCloudApplication.Tests
                 MinFontSize = 8,
                 Font = "Arial"
             };
-            var tags = TagCloudCreator.CreateTags(options);
+            var tags = TagCloudCreator.CreateTags(null, options);
 
             var fheight = 0;
             var fwidth = indent;

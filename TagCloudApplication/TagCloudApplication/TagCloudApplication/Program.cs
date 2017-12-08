@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
+using System.IO;
 using Autofac;
 using CommandLine;
+using TagCloudApplication.StatProvider;
 
 namespace TagCloudApplication
 {
@@ -10,8 +12,8 @@ namespace TagCloudApplication
         {
             args = new[]
             {
-                "-i", "...text.txt",
-                "-o", "...test.gif",
+                "-i", "C:\\Users\\Антон\\Desktop\\di\\TagCloudApplication\\TagCloudApplication\\TagCloudApplication\\bin\\Debug\\text.txt",
+                "-o", "C:\\Users\\Антон\\Desktop\\di\\TagCloudApplication\\TagCloudApplication\\TagCloudApplication\\bin\\Debug\\test.gif",
                 "-f", "Arial",
                 "-w", "500",
                 "-h", "500",
@@ -29,7 +31,8 @@ namespace TagCloudApplication
             builder.Register(_ => new Point(options.ImgWidth / 2, options.ImgHeight / 2));
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
 
-            builder.Build().Resolve<ITagCloudCreator>().CreateAndSave(options);
+            var text = File.ReadAllText(options.InputPath);
+            builder.Build().Resolve<ITagCloudCreator>().CreateAndSave(text, options);
         }
     }
 }
