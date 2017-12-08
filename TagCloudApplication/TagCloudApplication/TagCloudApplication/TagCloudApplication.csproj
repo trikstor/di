@@ -88,17 +88,13 @@
     <Compile Include="Layouter\ILayouter.cs" />
     <Compile Include="Layouter\Spiral.cs" />
     <Compile Include="Options.cs" />
-    <Compile Include="Parsers\IParser.cs" />
-    <Compile Include="Parsers\SimpleTextParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Renderer\IRenderer.cs" />
     <Compile Include="Renderer\Renderer.cs" />
     <Compile Include="Tag.cs" />
     <Compile Include="TagCloudCreator.cs" />
     <Compile Include="TagsCreator.cs" />
-    <Compile Include="FileReader\IFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FileReader\FileReader.cs" />
     <Compile Include="StatProvider\IStatisticsProvider.cs" />
     <Compile Include="StatProvider\StatisticsProvider.cs" />
     <Compile Include="Tests\BoringWordsFilterShould.cs" />
