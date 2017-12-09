@@ -12,8 +12,8 @@ namespace TagCloudApplication
         {
             args = new[]
             {
-                "-i", "C:\\Users\\Антон\\Desktop\\di\\TagCloudApplication\\TagCloudApplication\\TagCloudApplication\\bin\\Debug\\text.txt",
-                "-o", "C:\\Users\\Антон\\Desktop\\di\\TagCloudApplication\\TagCloudApplication\\TagCloudApplication\\bin\\Debug\\test.gif",
+                "-i", "...text.txt",
+                "-o", "...test.gif",
                 "-f", "Arial",
                 "-w", "500",
                 "-h", "500",

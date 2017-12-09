@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -17,7 +15,6 @@ namespace TagCloudApplication.Tests
         private IStatisticsProvider StatProvider;
         private string TestText;
         private readonly int MaxWordQuant = 10;
-        private INormalizer Normalizer;
 
         [SetUp]
         public void SetUp()
@@ -29,8 +26,8 @@ namespace TagCloudApplication.Tests
             {
                 Mock.Of<IFilter>(x => x.FilterTag(It.IsAny<string>()))
             };
-
-            StatProvider = new StatisticsProvider(filters, Normalizer);
+            var normalizer = Mock.Of<INormalizer>();
+            StatProvider = new StatisticsProvider(filters, normalizer);
         }
 
         [Test]
