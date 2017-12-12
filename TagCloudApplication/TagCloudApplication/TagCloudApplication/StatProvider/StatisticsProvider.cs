@@ -20,7 +20,8 @@ namespace TagCloudApplication.StatProvider
         public Dictionary<string, int> GetStatistic(string text, int maxWordQuant)
         {
             return SplitText(text)
-                 .Select(word => Normalizer?.Normalize(word.ToLower()) ?? word.ToLower())
+                 .Select(word => word.ToLower())
+                 .Select(word => Normalizer?.Normalize(word) ?? word)
                  .Where(word => TextFilters?.Any(filter => filter.FilterTag(word)) ?? true)
                  .GroupBy(word => word)
                  .OrderByDescending(word => word.Count())
