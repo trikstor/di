@@ -5,6 +5,6 @@ namespace TagCloudApplication
 {
     public interface ITagsCreator
     {
-        IEnumerable<Tag> Create(Dictionary<string, int> tagsCollection, int minFontSize, int maxFontSize, string fontName);
+        Result<IEnumerable<Tag>> Create(Dictionary<string, int> tagsCollection, int minFontSize, int maxFontSize, string fontName);
     }
 }

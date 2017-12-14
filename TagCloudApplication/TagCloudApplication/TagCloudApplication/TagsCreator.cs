@@ -13,14 +13,17 @@ namespace TagCloudApplication
         {
             Layouter = layouter;
         }
-        public IEnumerable<Tag> Create(Dictionary<string, int> tagsCollection, int minFontSize, int maxFontSize, string fontName)
+        public Result<IEnumerable<Tag>> Create(Dictionary<string, int> tagsCollection, int minFontSize, int maxFontSize, string fontName)
         {
             var factor = GetTagCollectionFontFactor(GetMaxTagWeight(tagsCollection), maxFontSize);
-            return tagsCollection
-                .Select(tag =>
+            return Result.Of(() =>
             {
-                var font = new Font(fontName, GetTagFontSize(tag.Value, factor, minFontSize));
-                return new Tag(tag.Key, font, Layouter.PutNextRectangle(GetRectangleSize(tag.Key, font)));
+                return tagsCollection
+                    .Select(tag =>
+                    {
+                        var font = new Font(fontName, GetTagFontSize(tag.Value, factor, minFontSize));
+                        return new Tag(tag.Key, font, Layouter.PutNextRectangle(GetRectangleSize(tag.Key, font)));
+                    });
             });
         }
 

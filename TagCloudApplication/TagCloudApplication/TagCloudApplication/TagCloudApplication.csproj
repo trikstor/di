@@ -91,6 +91,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Renderer\IRenderer.cs" />
     <Compile Include="Renderer\Renderer.cs" />
+    <Compile Include="Result.cs" />
     <Compile Include="Tag.cs" />
     <Compile Include="TagCloudCreator.cs" />
     <Compile Include="TagsCreator.cs" />

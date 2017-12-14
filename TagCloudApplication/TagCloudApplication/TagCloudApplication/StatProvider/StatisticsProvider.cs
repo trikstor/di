@@ -17,7 +17,7 @@ namespace TagCloudApplication.StatProvider
             Normalizer = normalizer;
         }
 
-        public Dictionary<string, int> GetStatistic(string text, int maxWordQuant)
+        public Result<Dictionary<string, int>> GetStatistic(string text, int maxWordQuant)
         {
             return SplitText(text)
                  .Select(word => word.ToLower())

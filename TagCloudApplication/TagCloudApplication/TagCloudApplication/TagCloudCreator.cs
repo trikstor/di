@@ -18,10 +18,10 @@ namespace TagCloudApplication
             StatProvider = statProvider;
         }
 
-        public IEnumerable<Tag> CreateTags(string text, Options options)
+        public Result<IEnumerable<Tag>> CreateTags(string text, Options options)
         {
-            var tagsCollection = StatProvider.GetStatistic(text, options.MaxWordQuant);
-            return TagsCreator.Create(tagsCollection, options.MinFontSize, options.MaxFontSize, options.Font);
+            return StatProvider.GetStatistic(text, options.MaxWordQuant)
+                .Then(tags => TagsCreator.Create(tags, options.MinFontSize, options.MaxFontSize, options.Font));
         }
 
         public void CreateAndSave(string text, Options options)
@@ -29,10 +29,10 @@ namespace TagCloudApplication
             var cloudBrushes = new List<Brush> { Brushes.Blue, Brushes.BlueViolet, Brushes.DarkSlateBlue };
             var imgSize = new Size(options.ImgWidth, options.ImgHeight);
 
-            var tagsCollection = StatProvider.GetStatistic(text, options.MaxWordQuant);
-            var tagRectangles = TagsCreator.Create(tagsCollection, options.MinFontSize, options.MaxFontSize, options.Font);
-            var bitmap = Renderer.Draw(tagRectangles, imgSize, cloudBrushes);
-            bitmap.Save(options.ImgPath);
+            StatProvider.GetStatistic(text, options.MaxWordQuant)
+                .Then(tags => TagsCreator.Create(tags, options.MinFontSize, options.MaxFontSize, options.Font))
+                .Then(trect => Renderer.Draw(trect, imgSize, cloudBrushes))
+                .Then(bmap => bmap.Save(options.ImgPath));
         }
     }
 }
