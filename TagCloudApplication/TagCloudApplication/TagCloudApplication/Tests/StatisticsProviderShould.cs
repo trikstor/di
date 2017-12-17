@@ -46,7 +46,7 @@ namespace TagCloudApplication.Tests
                 {"от", 7},
                 {"тебя", 6}
             };
-            StatProvider.GetStatistic(TestText, MaxWordQuant).ShouldAllBeEquivalentTo(expectedResult);
+            StatProvider.GetStatistic(TestText, MaxWordQuant).Value.ShouldBeEquivalentTo(expectedResult);
         }
     }
 }

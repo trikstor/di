@@ -18,17 +18,19 @@ namespace TagCloudApplication.Tests
         public void SetUp()
         {
             Center = new Point(500, 500);
-            Layouter = new CircularCloudLayouter(Center);
+            Layouter = new CircularCloudLayouter();
+            Layouter.SetCenter(Center);
         }
 
-        [TestCase(-10, 5, "Coordinates must be positive or zero", TestName = "CreateAndSave a new layout with negative cordinate(s)")]
+        [TestCase(-10, 5, "Координаты центра должны быть положительными либо равны нулю.", 
+            TestName = "CreateAndSave a new layout with negative cordinate(s)")]
         public void ThrowException_UncorrectParams(int x, int y, string exMessage)
         {
-            Action res = () => { new CircularCloudLayouter(new Point(x, y)); };
+            Action res = () => { Layouter.SetCenter(new Point(x, y)); };
             res.ShouldThrow<ArgumentException>().WithMessage(exMessage);
         }
 
-        [TestCase(0, 5, "Size must be positive", 
+        [TestCase(0, 5, "Ширина и высота прямоугольника должны быть положительными либо равны нулю.", 
             TestName = "CreateAndSave a new rectangle with negative or zero size")]
         public void PutNextRectangle_ThrowException(int width, int height, string exMessage)
         {
@@ -53,6 +55,14 @@ namespace TagCloudApplication.Tests
 
             allRect.Count.Should().Be(expectedQuantity);
         }
+        
+        [Test]
+        public void PutNextRectangle_OversizeCloud()
+        {
+            Layouter.SetFrame(new Size(500, 500));
+            Action res = () => { Layouter.PutNextRectangle(new Size(600, 700));};
+            res.ShouldThrow<ArgumentException>().WithMessage("Облако выходит за рамку.");
+        }
 
         private bool RectanglesNotOverlap(List<Rectangle> rectangles)
         {
@@ -63,6 +73,7 @@ namespace TagCloudApplication.Tests
         [TestCase(5, TestName = "Few rectangles")]
         public void PutNextRectangle_NotOverlapOfRectangles(int expectedQuantity)
         {
+            Layouter.SetCenter(Center);
             var allRect = FillCloudWithRandRect(5);
             RectanglesNotOverlap(allRect).Should().BeTrue();
         }
@@ -75,7 +86,7 @@ namespace TagCloudApplication.Tests
 
             for (var i = 0; i < expectedQuantity; i++)
                 sizeOfRectangles[i] = new Size(
-                    i + rnd.Next(10, 300), i + rnd.Next(10, 300));
+                    i + rnd.Next(10, 100), i + rnd.Next(10, 100));
 
                 foreach (var size in sizeOfRectangles)
                 {

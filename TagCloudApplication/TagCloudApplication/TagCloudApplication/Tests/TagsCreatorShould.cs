@@ -18,8 +18,9 @@ namespace TagCloudApplication.Tests
         [SetUp]
         public void SetUp()
         {
-            var layouter = Mock.Of <ILayouter>(x => x.PutNextRectangle(It.IsAny<Size>()) == Rectangle.Empty);
-            Creator = new TagsCreator(layouter);
+            var layouter = new Mock<ILayouter>();
+            layouter.Setup(x => x.PutNextRectangle(It.IsAny<Size>())).Returns(Rectangle.Empty);
+            Creator = new TagsCreator(layouter.Object);
         }
         
         [Test]
@@ -37,7 +38,7 @@ namespace TagCloudApplication.Tests
                 new Tag("ананас", new Font(FontName, 30), Rectangle.Empty),
                 new Tag("яблоко", new Font(FontName, 15), Rectangle.Empty)
             };
-            Creator.Create(tagCollection, MinFontSize, MaxFontSize, FontName).ShouldBeEquivalentTo(expected, options => 
+            Creator.Create(tagCollection, default(Size), MinFontSize, MaxFontSize, FontName).Value.ShouldBeEquivalentTo(expected, options => 
                 options.Excluding(pr => pr.SelectedMemberInfo.Name == "NativeFont"));   
         }
     }

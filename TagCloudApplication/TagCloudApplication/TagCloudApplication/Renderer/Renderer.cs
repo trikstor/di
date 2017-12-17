@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using TagCloudApplication.BrushProvider;
 using TagCloudApplication.Layouter;
@@ -19,13 +20,14 @@ namespace TagCloudApplication.Renderer
         public Bitmap Draw(IEnumerable<Tag> tagList, Size imgSize, List<Brush> brushes)
         {
             var bitmap = new Bitmap(imgSize.Width, imgSize.Height);
+
             using (var gr = Graphics.FromImage(bitmap))
             {
                 foreach (var tag in tagList)
-                    gr.DrawString(tag.Word, 
+                    gr.DrawString(tag.Word,
                         tag.Font, Colorer.GetColor(tag.Word, brushes), tag.Rectangle);
             }
             return bitmap;
-        }      
+        }
     }
 }

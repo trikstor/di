@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using TagCloudApplication.FileReader;
+using TagCloudApplication.ImgSaver;
 using TagCloudApplication.Layouter;
 using TagCloudApplication.Renderer;
 using TagCloudApplication.StatProvider;
@@ -27,11 +29,18 @@ namespace TagCloudApplication.Tests
                 {"гранат", 1},
                 {"яблоко", 1}
             };
-            var statProvider = Mock.Of<IStatisticsProvider>(x => x.GetStatistic(It.IsAny<string>(), It.IsAny<int>()) ==
-                                               DefaultTags);
+
+            var statProvider = new Mock<IStatisticsProvider>();
+            statProvider.Setup(x => x.GetStatistic(It.IsAny<string>(), It.IsAny<int>()))
+                .Returns(DefaultTags);
+            var fileReader = Mock.Of<IFileReader>();
             var renderer = Mock.Of<IRenderer>();
-            var tagsCreator = new TagsCreator(new CircularCloudLayouter(new Point(0, 0)));
-            TagCloudCreator = new TagCloudCreator(statProvider, tagsCreator, renderer);
+            var imgSaver = Mock.Of<IImgSaver>();
+            var layouter = new CircularCloudLayouter();
+            layouter.SetCenter(new Point(500, 500));
+            var tagsCreator = new TagsCreator(layouter);
+            TagCloudCreator = new TagCloudCreator(statProvider.Object, 
+                imgSaver, fileReader, tagsCreator, renderer);
         }
 
         [Test]
@@ -49,11 +58,12 @@ namespace TagCloudApplication.Tests
                 MinFontSize = 8,
                 Font = "Arial"
             };
-            var tags = TagCloudCreator.CreateTags(null, options);
+            var tags = TagCloudCreator.CreateTags(options);
 
             var fheight = 0;
             var fwidth = indent;
-            foreach (var tag in tags)
+
+            foreach (var tag in tags.Value)
             {
                 var measure = TextRenderer.MeasureText(tag.Word, tag.Font);
                 fheight += measure.Height;
@@ -63,7 +73,7 @@ namespace TagCloudApplication.Tests
 
             var rheight = 0;
             var rwidth = 0;
-            foreach (var tag in tags)
+            foreach (var tag in tags.Value)
             {
                 var measure = tag.Rectangle;
                 rheight += measure.Height;

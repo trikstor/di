@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NHunspell;
 
 namespace TagCloudApplication.WordsNormalizer
@@ -12,6 +9,8 @@ namespace TagCloudApplication.WordsNormalizer
         private Hunspell Hunspell { get; }
         public Normalizer(string affPath = "dict\\ru_RU.aff", string dicPath = "dict\\ru_RU.dic")
         {
+            if(!File.Exists(affPath) || !File.Exists(dicPath))
+                throw new FileNotFoundException("Путь к .aff или .dic файлу не найден.");
             Hunspell = new Hunspell(affPath, dicPath);
         }
 

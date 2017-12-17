@@ -8,21 +8,28 @@ namespace TagCloudApplication
 {
     public class TagsCreator : ITagsCreator
     {
-        public ILayouter Layouter { get; }
+        private ILayouter Layouter { get; }
+        
         public TagsCreator(ILayouter layouter)
         {
             Layouter = layouter;
         }
-        public Result<IEnumerable<Tag>> Create(Dictionary<string, int> tagsCollection, int minFontSize, int maxFontSize, string fontName)
+        
+        public Result<IEnumerable<Tag>> Create(Dictionary<string, int> tagsCollection, Size frame, int minFontSize, int maxFontSize, string fontName)
         {
+            if (minFontSize < 0 || maxFontSize < 0)
+                return Result.Fail<IEnumerable<Tag>>("Размер шрифта не может быть отрицательным.");
+
             var factor = GetTagCollectionFontFactor(GetMaxTagWeight(tagsCollection), maxFontSize);
             return Result.Of(() =>
             {
+                Layouter.SetFrame(frame);
                 return tagsCollection
                     .Select(tag =>
                     {
                         var font = new Font(fontName, GetTagFontSize(tag.Value, factor, minFontSize));
-                        return new Tag(tag.Key, font, Layouter.PutNextRectangle(GetRectangleSize(tag.Key, font)));
+                        return new Tag(tag.Key, font, 
+                            Layouter.PutNextRectangle(GetRectangleSize(tag.Key, font)));
                     });
             });
         }
