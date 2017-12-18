@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using TagCloudApplication.FileReader;
 using TagCloudApplication.ImgSaver;
 using TagCloudApplication.Renderer;
 using TagCloudApplication.StatProvider;

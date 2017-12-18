@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Drawing;
 using Autofac;
 using CommandLine;
-using TagCloudApplication.FileReader;
 
 namespace TagCloudApplication
 {

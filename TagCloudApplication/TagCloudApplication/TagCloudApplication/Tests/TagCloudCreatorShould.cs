@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using TagCloudApplication.FileReader;
 using TagCloudApplication.ImgSaver;
 using TagCloudApplication.Layouter;
 using TagCloudApplication.Renderer;
