@@ -78,8 +78,6 @@
   <ItemGroup>
     <Compile Include="BrushProvider\RandomBrushProvider.cs" />
     <Compile Include="BrushProvider\IBrushProvider.cs" />
-    <Compile Include="FileReader\IFileReader.cs" />
-    <Compile Include="FileReader\SimpleTextFileReader.cs" />
     <Compile Include="Filrters\BoringWordsFilter.cs" />
     <Compile Include="Filrters\IFilter.cs" />
     <Compile Include="IConfig.cs" />
@@ -96,6 +94,7 @@
     <Compile Include="Renderer\IRenderer.cs" />
     <Compile Include="Renderer\Renderer.cs" />
     <Compile Include="Result.cs" />
+    <Compile Include="SimpleTextFileReader.cs" />
     <Compile Include="Tag.cs" />
     <Compile Include="TagCloudCreator.cs" />
     <Compile Include="TagsCreator.cs" />

@@ -33,14 +33,13 @@ namespace TagCloudApplication.Tests
             var statProvider = new Mock<IStatisticsProvider>();
             statProvider.Setup(x => x.GetStatistic(It.IsAny<string>(), It.IsAny<int>()))
                 .Returns(DefaultTags);
-            var fileReader = Mock.Of<IFileReader>();
             var renderer = Mock.Of<IRenderer>();
             var imgSaver = Mock.Of<IImgSaver>();
             var layouter = new CircularCloudLayouter();
             layouter.SetCenter(new Point(500, 500));
             var tagsCreator = new TagsCreator(layouter);
             TagCloudCreator = new TagCloudCreator(statProvider.Object, 
-                imgSaver, fileReader, tagsCreator, renderer);
+                imgSaver, tagsCreator, renderer);
         }
 
         [Test]
@@ -58,7 +57,7 @@ namespace TagCloudApplication.Tests
                 MinFontSize = 8,
                 Font = "Arial"
             };
-            var tags = TagCloudCreator.CreateTags(options);
+            var tags = TagCloudCreator.CreateTags(default(string), options);
 
             var fheight = 0;
             var fwidth = indent;

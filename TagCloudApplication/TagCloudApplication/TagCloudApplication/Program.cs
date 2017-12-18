@@ -1,6 +1,8 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using Autofac;
 using CommandLine;
+using TagCloudApplication.FileReader;
 
 namespace TagCloudApplication
 {
@@ -27,8 +29,12 @@ namespace TagCloudApplication
             var builder = new ContainerBuilder();
             var assembly = typeof(Program).Assembly;
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
-
-            builder.Build().Resolve<ITagCloudCreator>().CreateAndSave(options);
+            
+            var textResult = SimpleTextFileReader.GetTextWords(options.InputPath);
+            if(textResult.IsSuccess)
+                builder.Build().Resolve<ITagCloudCreator>().CreateAndSave(textResult.Value, options);
+            else
+                Console.WriteLine(textResult.Error);
         }
     }
 }
