@@ -31,9 +31,9 @@ namespace TagCloudApplication.Tests
         }
 
         [TestCase(0, 5, "Ширина и высота прямоугольника должны быть положительными либо равны нулю.", 
-            TestName = "Попытка создать прямоугольник с равной нулю шириной и высотой.")]
+            TestName = "Попытка создать прямоугольник с равной нулю шириной, высотой.")]
         [TestCase(10, -5, "Ширина и высота прямоугольника должны быть положительными либо равны нулю.",
-            TestName = "Попытка создать прямоугольник с равной отрицательной шириной и высотой.")]
+            TestName = "Попытка создать прямоугольник с отрицательной шириной, высотой.")]
         public void PutNextRectangle_ThrowException(int width, int height, string exMessage)
         {
             Action res = () => { Layouter.PutNextRectangle(new Size(width, height));};
