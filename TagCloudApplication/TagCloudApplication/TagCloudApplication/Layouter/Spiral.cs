@@ -18,7 +18,7 @@ namespace TagCloudApplication.Layouter
         public Spiral(double spiralDensity, Point spiralCenter)
         {
             if(spiralCenter == null)
-                throw new ArgumentException("Точка центра спирали должна быть заданна.");
+                throw new ArgumentException("Точка центра спирали должна быть задана.");
             if (spiralDensity < 0.1)
                 throw new ArgumentException("Плотность спирали должна быть положительной.");
             SpiralDensity = spiralDensity;

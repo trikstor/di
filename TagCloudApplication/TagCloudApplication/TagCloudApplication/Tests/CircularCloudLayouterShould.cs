@@ -23,7 +23,7 @@ namespace TagCloudApplication.Tests
         }
 
         [TestCase(-10, 5, "Координаты центра должны быть положительными либо равны нулю.", 
-            TestName = "CreateAndSave a new layout with negative cordinate(s)")]
+            TestName = "Попытка создать облако с отрицательными координатами центральной точки.")]
         public void ThrowException_UncorrectParams(int x, int y, string exMessage)
         {
             Action res = () => { Layouter.SetCenter(new Point(x, y)); };
@@ -31,7 +31,9 @@ namespace TagCloudApplication.Tests
         }
 
         [TestCase(0, 5, "Ширина и высота прямоугольника должны быть положительными либо равны нулю.", 
-            TestName = "CreateAndSave a new rectangle with negative or zero size")]
+            TestName = "Попытка создать прямоугольник с равной нулю шириной и высотой.")]
+        [TestCase(10, -5, "Ширина и высота прямоугольника должны быть положительными либо равны нулю.",
+            TestName = "Попытка создать прямоугольник с равной отрицательной шириной и высотой.")]
         public void PutNextRectangle_ThrowException(int width, int height, string exMessage)
         {
             Action res = () => { Layouter.PutNextRectangle(new Size(width, height));};
@@ -70,7 +72,7 @@ namespace TagCloudApplication.Tests
             .Any(rect => rect.IntersectsWith(currRect) && rect.Size != currRect.Size));
         }
 
-        [TestCase(5, TestName = "Few rectangles")]
+        [TestCase(5, TestName = "Добавление небольшого количества прямоугольников.")]
         public void PutNextRectangle_NotOverlapOfRectangles(int expectedQuantity)
         {
             Layouter.SetCenter(Center);

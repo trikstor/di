@@ -38,7 +38,8 @@ namespace TagCloudApplication.Tests
                 new Tag("ананас", new Font(FontName, 30), Rectangle.Empty),
                 new Tag("яблоко", new Font(FontName, 15), Rectangle.Empty)
             };
-            Creator.Create(tagCollection, default(Size), MinFontSize, MaxFontSize, FontName).Value.ShouldBeEquivalentTo(expected, options => 
+            Creator.Create(tagCollection, default(Size), MinFontSize, MaxFontSize, FontName)
+                .Value.ShouldBeEquivalentTo(expected, options => 
                 options.Excluding(pr => pr.SelectedMemberInfo.Name == "NativeFont"));   
         }
     }

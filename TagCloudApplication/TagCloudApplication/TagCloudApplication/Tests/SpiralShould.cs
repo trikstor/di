@@ -18,7 +18,8 @@ namespace TagCloudApplication.Tests
             Center = new Point(500, 500);
         }
 
-        [TestCase(0, "Плотность спирали должна быть положительной.", TestName = "spiralDensity is null")]
+        [TestCase(0, "Плотность спирали должна быть положительной.", 
+            TestName = "Задана плотность спирали равная нулю.")]
         public void ThrowException_UncorrectParams(double spiralDensity, string exMessage)
         {
             Action res = () => { new Spiral(spiralDensity, Center); };
